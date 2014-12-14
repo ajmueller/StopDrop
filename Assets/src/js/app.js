@@ -1,3 +1,8 @@
+require('./vendor/jquery.min.js');
+require('./vendor/jquery.ui-custom.min.js');
+require('./vendor/jquery.ui-touch-punch.min.js');
+require('./vendor/jquery.mobile-events.min.js');
+
 $(function() {
 	var StopDrop = {
 		client: null,
