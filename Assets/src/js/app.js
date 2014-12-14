@@ -66,6 +66,8 @@ $(function() {
 			// Now you have a datastore. The next few examples can be included here.
 			StopDrop.datastore = datastore;
 			StopDrop.getOptions();
+
+			StopDrop.setOptionSync();
 		});
 	};
 
@@ -77,7 +79,7 @@ $(function() {
 			StopDrop.initializeOptions();
 		}
 		else {
-			StopDrop.updateOptionsUI();
+			StopDrop.setOptionsUI();
 		}
 	};
 
@@ -104,22 +106,43 @@ $(function() {
 		console.log('option ' + name + ' set with value of ' + value);
 	};
 
+	// sets up listener to sync options UI
+	StopDrop.setOptionSync = function() {
+		StopDrop.datastore.recordsChanged.addListener(function(e) {
+			var options = e.affectedRecordsForTable('options');
+
+			options.forEach(function(option) {
+				var optionID = option._rid,
+					$input = $('#' + optionID);
+
+				StopDrop.setOptionUI($input, option);
+			});
+		});
+	};
+
 	// updates an indvidual option in the datastore
 	StopDrop.updateOption = function(name, value) {
 		var option = StopDrop.getOption(name);
 
 		option.set('value', value);
+	};
 
-		console.log('option ' + name + ' updated with value of ' + value);
+	// updates an option's checkbox
+	StopDrop.setOptionUI = function($input, option) {
+		var optionValue = option.get('value');
+
+		$input.prop('checked', optionValue);
+
+		console.log('option ' + option._rid + ' checkbox updated with value of ' + optionValue);
 	};
 
 	// updates the options checkboxes to match the datastore
-	StopDrop.updateOptionsUI = function() {
+	StopDrop.setOptionsUI = function() {
 		$('.options input').each(function() {
 			var $input = $(this),
 				option = StopDrop.getOption($input.attr('id'));
 
-			$input.prop('checked', option.get('value'));
+			StopDrop.setOptionUI($input, option);
 		});
 	};
 
