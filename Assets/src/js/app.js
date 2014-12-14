@@ -2,10 +2,11 @@ require('./vendor/jquery.min.js');
 require('./vendor/jquery.ui-custom.min.js');
 require('./vendor/jquery.ui-touch-punch.min.js');
 require('./vendor/jquery.mobile-events.min.js');
+var datastore = require('./modules/datastore.js'),
+	client = null;
 
 $(function() {
 	var StopDrop = {
-		client: null,
 		datastore: null,
 		datastoreManager: null
 	};
@@ -16,7 +17,7 @@ $(function() {
 	// binds all clicks and change events to UI elements
 	StopDrop.bindInteractions = function() {
 		$('#authenticate').click(function(e) {
-			StopDrop.client.authenticate();
+			client.authenticate();
 		});
 
 		$('#singleWatch').on('change', function() {
@@ -30,33 +31,9 @@ $(function() {
 		console.log('interactions bound');
 	};
 
-	// gets an instance of the Dropbox client
-	StopDrop.getClient = function() {
-		var userAuthenticated = false;
-
-		StopDrop.client = new Dropbox.Client({key: 'vng10ukrxiq1gsk'});
-
-		// Try to finish OAuth authorization.
-		StopDrop.client.authenticate({interactive: false}, function (error) {
-			if (error) {
-				alert('Authentication error: ' + error);
-			}
-		});
-
-		if (StopDrop.client.isAuthenticated()) {
-			// Client is authenticated. Display UI.
-			console.log('user authenticated');
-			$('#welcome').remove();
-			$('#container').show();
-			userAuthenticated = true;
-		}
-
-		return userAuthenticated;
-	};
-
 	// gets the user's default datastore
 	StopDrop.getDatastoreManager = function() {
-		StopDrop.datastoreManager = StopDrop.client.getDatastoreManager();
+		StopDrop.datastoreManager = client.getDatastoreManager();
 
 		StopDrop.datastoreManager.openDefaultDatastore(function (error, datastore) {
 			if (error) {
@@ -147,9 +124,10 @@ $(function() {
 	};
 
 	StopDrop.init = function() {
+		client = datastore.getClient();
 		StopDrop.bindInteractions();
 
-		if(StopDrop.getClient()) {
+		if(client.isAuthenticated()) {
 			StopDrop.getDatastoreManager();
 		}
 	};
