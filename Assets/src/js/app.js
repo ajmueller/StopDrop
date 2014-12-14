@@ -4,11 +4,16 @@ require('./vendor/jquery.ui-touch-punch.min.js');
 require('./vendor/jquery.mobile-events.min.js');
 var dataLayer = require('./modules/dataLayer.js'),
 	options = require('./modules/options.js'),
+	watches = require('./modules/watches.js'),
 	client = null;
 
 $(function() {
 	// binds all clicks and change events to UI elements
 	function bindInteractions() {
+		$('.new').click(function(e) {
+			watches.createWatch();
+		});
+
 		$('#authenticate').click(function(e) {
 			client.authenticate();
 		});

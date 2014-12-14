@@ -1,7 +1,8 @@
 var client = null,
 	datastoreManager = null,
 	appKey = 'vng10ukrxiq1gsk',
-	options = require('./options.js');
+	options = require('./options.js'),
+	watches = require('./watches.js');
 
 function authenticateClient() {
 	var clientAuthenticated = false;
@@ -32,8 +33,6 @@ function getClient() {
 }
 
 function getDatastoreManager() {
-	var datastoreManagerRetrieved = false;
-
 	datastoreManager = client.getDatastoreManager();
 
 	datastoreManager.openDefaultDatastore(function (error, datastore) {
@@ -41,15 +40,18 @@ function getDatastoreManager() {
 			alert('Error opening default datastore: ' + error);
 		}
 		else {
-			datastoreManagerRetrieved = true;
 			global.datastore = datastore;
+
 			options.getOptions();
 			options.setOptionsSync();
+
+			// initialize watches
+			watches.getWatches();
+			watches.setWatchesSync();
+
 			console.log('datastore set');
 		}
 	});
-
-	return datastoreManagerRetrieved;
 }
 
 exports.getClient = getClient;

@@ -76,5 +76,6 @@ function setOptionsUI() {
 }
 
 exports.getOptions = getOptions;
+exports.getOption = getOption;
 exports.updateOption = updateOption;
 exports.setOptionsSync = setOptionsSync;
