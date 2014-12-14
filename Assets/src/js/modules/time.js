@@ -122,6 +122,21 @@ function resetTime(id) {
 	}
 }
 
+// Adds 15 minutes for a watch
+function addTime(id) {
+	var watch = watches.getWatch(id),
+		timeToAdd = 15 * 60 * 1000,
+		$watch = $('#' + id);
+
+	if ($watch.is('.tracking')) {
+		pauseTime(id);
+	}
+
+	watch
+		.set('totalTime', watch.get('totalTime') + timeToAdd)
+		.set('tracking', false);
+}
+
 function padZeroes(number) {
 	if (number < 10) {
 		return "0" + number;
@@ -136,3 +151,4 @@ exports.calcTotalTime = calcTotalTime;
 exports.pauseTime = pauseTime;
 exports.startTime = startTime;
 exports.resetTime = resetTime;
+exports.addTime = addTime;
