@@ -1,5 +1,4 @@
 var client = null,
-	appDatastore = null,
 	datastoreManager = null,
 	appKey = 'vng10ukrxiq1gsk',
 	options = require('./options.js');

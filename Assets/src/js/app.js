@@ -4,8 +4,7 @@ require('./vendor/jquery.ui-touch-punch.min.js');
 require('./vendor/jquery.mobile-events.min.js');
 var dataLayer = require('./modules/dataLayer.js'),
 	options = require('./modules/options.js'),
-	client = null,
-	datastore = null;
+	client = null;
 
 $(function() {
 	// binds all clicks and change events to UI elements
@@ -25,17 +24,13 @@ $(function() {
 		console.log('interactions bound');
 	}
 
-	function init() {
+	// init
+	(function() {
 		client = dataLayer.getClient();
 		bindInteractions();
 
 		if(client.isAuthenticated()) {
 			dataLayer.getDatastoreManager();
 		}
-	}
-
-	// start app function
-	(function() {
-		init();
 	})();
 });
