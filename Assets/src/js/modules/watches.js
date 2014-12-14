@@ -6,20 +6,7 @@ var watches = null,
 function getWatches() {
 	watches = datastore.getTable('watches');
 
-	if (watches.query().length > 0) {
-		watches.query().forEach(function(watch) {
-			var watchId = watch.getId(),
-				watchToAppend = {
-					name: watch.get('name'),
-					theme: watch.get('theme'),
-					totalTime: watch.get('totalTime'),
-					tracking: watch.get('tracking'),
-					collapsed: watch.get('collapsed')
-				};
-
-			appendWatch(watchId, watchToAppend);
-		});
-	}
+	return watches.query();
 }
 
 function getWatch(id) {
@@ -83,6 +70,25 @@ function appendWatch(id, watch) {
 	console.log('Watch with ID ' + id + ' added to UI');
 }
 
+function appendWatches() {
+	getWatches();
+
+	if (watches.query().length > 0) {
+		watches.query().forEach(function(watch) {
+			var watchId = watch.getId(),
+				watchToAppend = {
+					name: watch.get('name'),
+					theme: watch.get('theme'),
+					totalTime: watch.get('totalTime'),
+					tracking: watch.get('tracking'),
+					collapsed: watch.get('collapsed')
+				};
+
+			appendWatch(watchId, watchToAppend);
+		});
+	}
+}
+
 function removeWatch(id) {
 	$('#' + id).remove();
 }
@@ -111,5 +117,6 @@ function setWatchesSync() {
 exports.getWatches = getWatches;
 exports.getWatch = getWatch;
 exports.createWatch = createWatch;
+exports.appendWatches = appendWatches;
 exports.setTheme = setTheme;
 exports.setWatchesSync = setWatchesSync;

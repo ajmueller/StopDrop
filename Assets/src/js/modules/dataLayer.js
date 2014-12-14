@@ -46,7 +46,7 @@ function getDatastoreManager() {
 			options.setOptionsSync();
 
 			// initialize watches
-			watches.getWatches();
+			watches.appendWatches();
 			watches.setWatchesSync();
 
 			console.log('datastore set');
