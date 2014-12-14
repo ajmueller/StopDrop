@@ -1,16 +1,16 @@
-var Watcher = Watcher || {};
+var StopDrop = StopDrop || {};
 var Global = Global || {};
 var Commodal = Commodal || {};
 
-Watcher.watches = [];
-Watcher.currentVersion = '1.4.2';
-Watcher.singleWatch = 'false';
-Watcher.trackImmediately = 'false';
+StopDrop.watches = [];
+StopDrop.currentVersion = '1.4.2';
+StopDrop.singleWatch = 'false';
+StopDrop.trackImmediately = 'false';
 
 /* -------------------- TIME FUNCTIONS -------------------- */
 // Starts tracking for a watch
-Watcher.startTime = function() {
-    var db = Watcher.db,
+StopDrop.startTime = function() {
+    var db = StopDrop.db,
         id = Global.currentAction.id,
         $watch = $('#' + id),
         $pause = $watch.find('.pause'),
@@ -20,22 +20,22 @@ Watcher.startTime = function() {
         $trackingWatches = $('.tracking');
 
     // pause all watches that are tracking
-    if (Watcher.singleWatch === 'true') {
+    if (StopDrop.singleWatch === 'true') {
         $trackingWatches.each(function() {
             var $this = $(this);
 
             Global.currentAction = {
-                "action" : Watcher.pauseTime,
+                "action" : StopDrop.pauseTime,
                 "id" : $this.attr('id')
             };
 
-            Watcher.pauseTime();
+            StopDrop.pauseTime();
         });
     }
 
     db.transaction(function(tx) {
         tx.executeSql('UPDATE watch SET sessionStart = ' + sessionStart + ', tracking = "true" WHERE id = ' + id);
-    }, Watcher.errorHandler, function() {
+    }, StopDrop.errorHandler, function() {
         $watch.addClass('tracking');
         $pause.removeClass('hide');
         $start.addClass('hide');
@@ -44,8 +44,8 @@ Watcher.startTime = function() {
 };
 
 // Pauses tracking for a watch
-Watcher.pauseTime = function() {
-    var db = Watcher.db,
+StopDrop.pauseTime = function() {
+    var db = StopDrop.db,
         id = Global.currentAction.id,
         $watch = $('#' + id),
         $pause = $watch.find('.pause'),
@@ -68,13 +68,13 @@ Watcher.pauseTime = function() {
 
             totalTime += sessionTime;
         });
-    }, Watcher.errorHandler);
+    }, StopDrop.errorHandler);
 
     db.transaction(function(tx) {
         tx.executeSql('UPDATE watch SET sessionEnd = ' + sessionEnd + ', sessionTime = ' + sessionTime + ', totalTime = ' + totalTime + ', tracking = "false" WHERE id = ' + id);
-    }, Watcher.errorHandler, function() {
-        Watcher.calcTime(id, totalTime);
-        Watcher.calcTotalTime();
+    }, StopDrop.errorHandler, function() {
+        StopDrop.calcTime(id, totalTime);
+        StopDrop.calcTotalTime();
         $watch.removeClass('tracking');
         $pause.addClass('hide');
         $start.removeClass('hide');
@@ -82,31 +82,31 @@ Watcher.pauseTime = function() {
 };
 
 // Pauses the time for all watches
-Watcher.pauseAll = function() {
+StopDrop.pauseAll = function() {
     $('.stopwatch').each(function() {
         var $this = $(this);
 
         if ($this.is('.tracking')) {
             Global.currentAction = {
-                "action" : Watcher.pauseTime,
+                "action" : StopDrop.pauseTime,
                 "id" : $this.attr('id')
             };
-            Watcher.pauseTime();
+            StopDrop.pauseTime();
         }
     });
 
-    Watcher.calcTotalTime();
+    StopDrop.calcTotalTime();
 };
 
 // Adds 15 minutes for a watch
-Watcher.addTime = function() {
-    var db = Watcher.db,
+StopDrop.addTime = function() {
+    var db = StopDrop.db,
         id = Global.currentAction.id,
         $watch = $('#' + id),
         totalTime;
 
     if ($watch.is('.tracking')) {
-        Watcher.pauseTime();
+        StopDrop.pauseTime();
     }
 
     db.transaction(function(tx) {
@@ -120,25 +120,25 @@ Watcher.addTime = function() {
 
             totalTime += 900;
         });
-    }, Watcher.errorHandler);
+    }, StopDrop.errorHandler);
 
     db.transaction(function(tx) {
         tx.executeSql('UPDATE watch SET totalTime = ' + totalTime + ', tracking = "false" WHERE id = ' + id);
-    }, Watcher.errorHandler, function() {
-        Watcher.calcTime(id, totalTime);
-        Watcher.calcTotalTime();
+    }, StopDrop.errorHandler, function() {
+        StopDrop.calcTime(id, totalTime);
+        StopDrop.calcTotalTime();
     });
 };
 
 // Subtracts 15 minutes for a watch
-Watcher.subtractTime = function() {
-    var db = Watcher.db,
+StopDrop.subtractTime = function() {
+    var db = StopDrop.db,
         id = Global.currentAction.id,
         $watch = $('#' + id),
         totalTime;
 
     if ($watch.is('.tracking')) {
-        Watcher.pauseTime();
+        StopDrop.pauseTime();
     }
 
     db.transaction(function(tx) {
@@ -154,34 +154,34 @@ Watcher.subtractTime = function() {
                 totalTime -= 900;
             }
         });
-    }, Watcher.errorHandler);
+    }, StopDrop.errorHandler);
 
     db.transaction(function(tx) {
         tx.executeSql('UPDATE watch SET totalTime = ' + totalTime + ', tracking = "false" WHERE id = ' + id);
-    }, Watcher.errorHandler, function() {
-        Watcher.calcTime(id, totalTime);
-        Watcher.calcTotalTime();
+    }, StopDrop.errorHandler, function() {
+        StopDrop.calcTime(id, totalTime);
+        StopDrop.calcTotalTime();
     });
 };
 
 // Resets the time for a watch
-Watcher.resetTime = function() {
-    var db = Watcher.db,
+StopDrop.resetTime = function() {
+    var db = StopDrop.db,
         id = Global.currentAction.id;
 
     if (Global.currentAction.confirm) {
         Global.currentAction.confirm = false;
 
-        Watcher.pauseTime();
+        StopDrop.pauseTime();
 
         db.transaction(function(tx) {
             tx.executeSql('UPDATE watch SET sessionStart = 0, sessionEnd = 0, sessionTime = 0, totalTime = 0 WHERE id = ' + id);
-            Watcher.calcTime(id, 0);
-        }, Watcher.errorHandler, function() {
+            StopDrop.calcTime(id, 0);
+        }, StopDrop.errorHandler, function() {
             Commodal.close();
         });
 
-        Watcher.calcTotalTime();
+        StopDrop.calcTotalTime();
     }
     else {
         Commodal.confirm('Are you sure you want to reset this watch?');
@@ -189,30 +189,30 @@ Watcher.resetTime = function() {
 };
 
 // Resets the time for all watches
-Watcher.resetAll = function() {
+StopDrop.resetAll = function() {
     if (Global.currentAction.confirm) {
         Global.currentAction.confirm = false;
 
         $('.stopwatch').each(function() {
-            var db = Watcher.db,
+            var db = StopDrop.db,
                 id = $(this).attr('id');
 
             Global.currentAction = {
-                "action" : Watcher.pauseTime,
+                "action" : StopDrop.pauseTime,
                 "id" : id
             };
 
-            Watcher.pauseTime();
+            StopDrop.pauseTime();
 
             db.transaction(function(tx) {
                 tx.executeSql('UPDATE watch SET sessionStart = 0, sessionEnd = 0, sessionTime = 0, totalTime = 0 WHERE id = ' + id);
-                Watcher.calcTime(id, 0);
-            }, Watcher.errorHandler, function() {
+                StopDrop.calcTime(id, 0);
+            }, StopDrop.errorHandler, function() {
                 Commodal.close();
             });
         });
 
-        Watcher.calcTotalTime();
+        StopDrop.calcTotalTime();
     }
     else {
         Commodal.confirm('Are you sure you want to reset all watches?');
@@ -220,9 +220,9 @@ Watcher.resetAll = function() {
 };
 
 // Expands the view for all watches
-Watcher.expandAll = function() {
+StopDrop.expandAll = function() {
     $('.stopwatch').each(function() {
-        var db = Watcher.db,
+        var db = StopDrop.db,
             $watch = $(this),
             id = $watch.attr('id');
 
@@ -230,16 +230,16 @@ Watcher.expandAll = function() {
 
         db.transaction(function(tx) {
             tx.executeSql('UPDATE watch SET collapsed = "false" WHERE id = ' + id);
-        }, Watcher.errorHandler, function() {
+        }, StopDrop.errorHandler, function() {
             Commodal.close();
         });
     });
 };
 
 // Collapses the view for all watches
-Watcher.collapseAll = function() {
+StopDrop.collapseAll = function() {
     $('.stopwatch').each(function() {
-        var db = Watcher.db,
+        var db = StopDrop.db,
             $watch = $(this),
             id = $watch.attr('id');
 
@@ -247,16 +247,16 @@ Watcher.collapseAll = function() {
 
         db.transaction(function(tx) {
             tx.executeSql('UPDATE watch SET collapsed = "true" WHERE id = ' + id);
-        }, Watcher.errorHandler, function() {
+        }, StopDrop.errorHandler, function() {
             Commodal.close();
         });
     });
 };
 
 // Toggles the collapsed view for the specified watch
-Watcher.toggleCollapsed = function() {
+StopDrop.toggleCollapsed = function() {
     var id = Global.currentAction.id,
-        db = Watcher.db,
+        db = StopDrop.db,
         $watch = $('#' + id),
         collapsed;
 
@@ -271,11 +271,11 @@ Watcher.toggleCollapsed = function() {
 
     db.transaction(function(tx) {
         tx.executeSql('UPDATE watch SET collapsed = "' + collapsed + '" WHERE id = ' + id);
-    }, Watcher.errorHandler);
+    }, StopDrop.errorHandler);
 };
 
 // Calculates the time for a given watch
-Watcher.calcTime = function(id, time) {
+StopDrop.calcTime = function(id, time) {
     var $time = $('#' + id).find('.time'),
         hours = Math.floor(time / 3600),
         quarters = Math.round((time % 3600) / 900),
@@ -283,7 +283,7 @@ Watcher.calcTime = function(id, time) {
         seconds = (time % 3600) % 60,
         bigTimeHours = hours + (quarters * 0.25),
         noun = (bigTimeHours === 1) ? 'hour' : 'hours',
-        text = Watcher.padZeroes(hours) + ":" + Watcher.padZeroes(minutes) + ":" + Watcher.padZeroes(seconds) + " (" + bigTimeHours + " " + noun + ")";
+        text = StopDrop.padZeroes(hours) + ":" + StopDrop.padZeroes(minutes) + ":" + StopDrop.padZeroes(seconds) + " (" + bigTimeHours + " " + noun + ")";
 
     $time.text(text);
 
@@ -291,8 +291,8 @@ Watcher.calcTime = function(id, time) {
 };
 
 // Calculates the total time
-Watcher.calcTotalTime = function() {
-    var db = Watcher.db;
+StopDrop.calcTotalTime = function() {
+    var db = StopDrop.db;
 
     db.transaction(function(tx) {
         tx.executeSql('SELECT SUM(totalTime) AS "totalTime" FROM watch', [], function(tx, results) {
@@ -304,10 +304,10 @@ Watcher.calcTotalTime = function() {
                 seconds = (time % 3600) % 60,
                 bigTimeHours = hours + (quarters * 0.25),
                 noun = (bigTimeHours === 1) ? 'hour' : 'hours',
-                text = Watcher.padZeroes(hours) + ":" + Watcher.padZeroes(minutes) + ":" + Watcher.padZeroes(seconds) + " (" + bigTimeHours + " " + noun + ")";
+                text = StopDrop.padZeroes(hours) + ":" + StopDrop.padZeroes(minutes) + ":" + StopDrop.padZeroes(seconds) + " (" + bigTimeHours + " " + noun + ")";
 
             $total.text(text);
-        }, Watcher.errorHandler, function() {
+        }, StopDrop.errorHandler, function() {
         });
 
         tx.executeSql('SELECT totalTime FROM watch', [], function(tx, results) {
@@ -334,7 +334,7 @@ Watcher.calcTotalTime = function() {
             text = totalTime + " " + noun;
 
             $roundedTotal.text(text);
-        }, Watcher.errorHandler, function() {
+        }, StopDrop.errorHandler, function() {
         });
     });
 };
@@ -344,7 +344,7 @@ Watcher.calcTotalTime = function() {
 
 /* -------------------- WATCH FUNCTIONS -------------------- */
 // Appends a new watch to the DOM
-Watcher.appendWatch = function(name, theme, totalTime, tracking, collapsed) {
+StopDrop.appendWatch = function(name, theme, totalTime, tracking, collapsed) {
     var id = Global.currentAction.id,
         watchProperties = [],
         status,
@@ -366,7 +366,7 @@ Watcher.appendWatch = function(name, theme, totalTime, tracking, collapsed) {
     }
     else {
         buttons = '<button class="start control"><span></span></button><button class="pause hide control"><span></span></button>';
-        status = Watcher.calcTime(id, totalTime);
+        status = StopDrop.calcTime(id, totalTime);
     }
 
     if (collapsed) {
@@ -378,7 +378,7 @@ Watcher.appendWatch = function(name, theme, totalTime, tracking, collapsed) {
 };
 
 // Prompts users for a name and creates a watch
-Watcher.createWatch = function() {
+StopDrop.createWatch = function() {
     var id,
         name,
         theme;
@@ -391,16 +391,16 @@ Watcher.createWatch = function() {
         name = Global.currentAction.promptValue;
         theme = "blue";
 
-        Watcher.appendWatch(name, theme, 0, Watcher.trackImmediately, "false");
-        Watcher.insertWatch(name, 0, Watcher.trackImmediately);
+        StopDrop.appendWatch(name, theme, 0, StopDrop.trackImmediately, "false");
+        StopDrop.insertWatch(name, 0, StopDrop.trackImmediately);
 
-        if (Watcher.trackImmediately === 'true') {
+        if (StopDrop.trackImmediately === 'true') {
             Global.currentAction = {
-                "action" : Watcher.startTime,
+                "action" : StopDrop.startTime,
                 "id" : id
             };
 
-            Watcher.startTime();
+            StopDrop.startTime();
         }
     }
     else {
@@ -409,8 +409,8 @@ Watcher.createWatch = function() {
 };
 
 // Deletes a watch from the database and the DOM
-Watcher.deleteWatch = function() {
-    var db = Watcher.db,
+StopDrop.deleteWatch = function() {
+    var db = StopDrop.db,
         id = Global.currentAction.id;
 
     if (Global.currentAction.confirm) {
@@ -418,7 +418,7 @@ Watcher.deleteWatch = function() {
 
         db.transaction(function(tx) {
             tx.executeSql('DELETE FROM watch WHERE id = ' + id);
-        }, Watcher.errorHandler, function() {
+        }, StopDrop.errorHandler, function() {
             Commodal.close();
         });
 
@@ -426,7 +426,7 @@ Watcher.deleteWatch = function() {
             $(this).remove();
         });
 
-        Watcher.calcTotalTime();
+        StopDrop.calcTotalTime();
     }
     else {
         Commodal.confirm('Are you sure you want to delete this watch?');
@@ -434,15 +434,15 @@ Watcher.deleteWatch = function() {
 };
 
 // Deletes all watches from the database and the DOM
-Watcher.deleteAll = function() {
-    var db = Watcher.db;
+StopDrop.deleteAll = function() {
+    var db = StopDrop.db;
 
     if (Global.currentAction.confirm) {
         Global.currentAction.confirm = false;
 
         db.transaction(function(tx) {
             tx.executeSql('DELETE FROM watch');
-        }, Watcher.errorHandler, function() {
+        }, StopDrop.errorHandler, function() {
             Commodal.close();
         });
 
@@ -450,7 +450,7 @@ Watcher.deleteAll = function() {
             $(this).remove();
         });
 
-        Watcher.calcTotalTime();
+        StopDrop.calcTotalTime();
     }
     else {
         Commodal.confirm('Are you sure you want to delete all watches?');
@@ -458,8 +458,8 @@ Watcher.deleteAll = function() {
 };
 
 // Retrieves the watches from the database
-Watcher.getWatches = function() {
-    var db = Watcher.db;
+StopDrop.getWatches = function() {
+    var db = StopDrop.db;
 
     db.transaction(function(tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS watch (id unique, name, sessionStart, sessionEnd, sessionTime, totalTime, tracking, collapsed, rank, theme)');
@@ -471,15 +471,15 @@ Watcher.getWatches = function() {
             for (i = 0; i < len; i++) {
                 Global.currentAction.id = results.rows.item(i).id;
 
-                Watcher.appendWatch(results.rows.item(i).name, results.rows.item(i).theme, results.rows.item(i).totalTime, results.rows.item(i).tracking, results.rows.item(i).collapsed);
+                StopDrop.appendWatch(results.rows.item(i).name, results.rows.item(i).theme, results.rows.item(i).totalTime, results.rows.item(i).tracking, results.rows.item(i).collapsed);
             }
         });
-    }, Watcher.errorHandler);
+    }, StopDrop.errorHandler);
 };
 
 // Inserts a new watch into the database
-Watcher.insertWatch = function(name, totalTime, tracking) {
-    var db = Watcher.db,
+StopDrop.insertWatch = function(name, totalTime, tracking) {
+    var db = StopDrop.db,
         id = Global.currentAction.id,
         sessionStart = 0;
 
@@ -495,37 +495,37 @@ Watcher.insertWatch = function(name, totalTime, tracking) {
             }
             tx.executeSql('INSERT INTO watch (id, name, sessionStart, sessionEnd, sessionTime, totalTime, tracking, rank, theme) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)', [id, name, sessionStart, 0, 0, totalTime, false, max, "blue"]);
         });
-    }, Watcher.errorHandler, function() {
+    }, StopDrop.errorHandler, function() {
         Commodal.close();
     });
 };
 
 // Updates the watch's name
-Watcher.updateName = function() {
-    var db = Watcher.db,
+StopDrop.updateName = function() {
+    var db = StopDrop.db,
         id = Global.currentAction.id,
         name = Global.currentAction.name;
 
     db.transaction(function(tx) {
         tx.executeSql('UPDATE watch SET name = "' + name + '" WHERE id = ' + id);
-    }, Watcher.errorHandler);
+    }, StopDrop.errorHandler);
 };
 
 // Updates the rank order of the watches
-Watcher.updateRanks = function(results) {
+StopDrop.updateRanks = function(results) {
     var i,
-        db = Watcher.db;
+        db = StopDrop.db;
 
     db.transaction(function(tx) {
         for (i = 0; i < results.length; i++) {
             tx.executeSql('UPDATE watch SET rank = ' + i + ' WHERE id = ' + results[i]);
         }
-    }, Watcher.errorHandler, Watcher.successHandler("Order successfully updated."));
+    }, StopDrop.errorHandler, StopDrop.successHandler("Order successfully updated."));
 };
 /* ------------------ END WATCH FUNCTIONS ------------------ */
 
 /* -------------------- HELPER FUNCTIONS -------------------- */
-Watcher.padZeroes = function(number) {
+StopDrop.padZeroes = function(number) {
     if (number < 10) {
         return "0" + number;
     }
@@ -534,15 +534,15 @@ Watcher.padZeroes = function(number) {
     }
 };
 
-Watcher.errorHandler = function(error) {
-    Watcher.$notification
+StopDrop.errorHandler = function(error) {
+    StopDrop.$notification
         .addClass('error')
         .text("Error: " + error.message)
         .show();
 };
 
-Watcher.successHandler = function(message) {
-    Watcher.$notification
+StopDrop.successHandler = function(message) {
+    StopDrop.$notification
         .addClass('success')
         .text(message)
         .show()
@@ -554,13 +554,13 @@ Watcher.successHandler = function(message) {
         });
 };
 
-Watcher.eventListener = function() {
+StopDrop.eventListener = function() {
     Global.currentAction.action.call();
 };
 
 // user option functions
-Watcher.loadOptions = function() {
-    var db = Watcher.db,
+StopDrop.loadOptions = function() {
+    var db = StopDrop.db,
         $singleWatch = $('#single-watch'),
         $trackImmediately = $('#track-immediately');
 
@@ -575,27 +575,27 @@ Watcher.loadOptions = function() {
                         $singleWatch.attr('checked', 'checked');
                         $('.pause-all').hide();
                     }
-                    Watcher.singleWatch = results.rows.item(i).value;
+                    StopDrop.singleWatch = results.rows.item(i).value;
                 }
 
                 if (results.rows.item(i).name === 'trackImmediately') {
                     if (results.rows.item(i).value === 'true') {
                         $trackImmediately.attr('checked', 'checked');
                     }
-                    Watcher.trackImmediately = results.rows.item(i).value;
+                    StopDrop.trackImmediately = results.rows.item(i).value;
                 }
             }
         });
-    }, Watcher.errorHandler);
+    }, StopDrop.errorHandler);
 };
-Watcher.setOption = function(name, value) {
-    var db = Watcher.db;
+StopDrop.setOption = function(name, value) {
+    var db = StopDrop.db;
 
     db.transaction(function(tx) {
         tx.executeSql('UPDATE options SET value = "' + value + '" WHERE name = "' + name + '"');
-    }, Watcher.errorHandler, function() {
+    }, StopDrop.errorHandler, function() {
         if (name === 'singleWatch') {
-            Watcher.singleWatch = value;
+            StopDrop.singleWatch = value;
 
             if (value === 'true') {
                 $('.pause-all').hide();
@@ -605,20 +605,20 @@ Watcher.setOption = function(name, value) {
             }
         }
         if (name === 'trackImmediately') {
-            Watcher.trackImmediately = value;
+            StopDrop.trackImmediately = value;
         }
     });
 };
 // end user option functions
 
-Watcher.setTheme = function() {
-    var db = Watcher.db,
+StopDrop.setTheme = function() {
+    var db = StopDrop.db,
         id = Global.currentAction.id,
         theme = Global.currentAction.theme;
 
     db.transaction(function(tx) {
         tx.executeSql('UPDATE watch SET theme = "' + theme + '" WHERE id = ' + id);
-    }, Watcher.errorHandler, function() {
+    }, StopDrop.errorHandler, function() {
         var $watch = $('#' + id);
 
         if ($watch.is('.tracking')) {
@@ -630,13 +630,13 @@ Watcher.setTheme = function() {
     });
 };
 
-Watcher.connectToDB = function() {
-    Watcher.db = openDatabase('watcher', '', 'Storage for the Watcher extension.', 5 * 1024 * 1024);
+StopDrop.connectToDB = function() {
+    StopDrop.db = openDatabase('StopDrop', '', 'Storage for the StopDrop extension.', 5 * 1024 * 1024);
 };
 
 // Handles database upgrades for new versions
-Watcher.upgradeDB = function() {
-    var db = Watcher.db;
+StopDrop.upgradeDB = function() {
+    var db = StopDrop.db;
 
     db.transaction(function(tx) {
         tx.executeSql('CREATE TABLE IF NOT EXISTS watch (id unique, name, sessionStart, sessionEnd, sessionTime, totalTime, tracking, collapsed, rank, theme)');
@@ -677,40 +677,40 @@ Watcher.upgradeDB = function() {
                 tx.executeSql('INSERT INTO options (name, value) VALUES (?, ?)', ["trackImmediately", false]);
             }
         });
-    }, Watcher.errorHandler);
+    }, StopDrop.errorHandler);
 
-    db.changeVersion(db.version, Watcher.currentVersion, function() {}, function(){}, function() {
+    db.changeVersion(db.version, StopDrop.currentVersion, function() {}, function(){}, function() {
         Commodal.confirm("Updated to version " + db.version);
     });
 };
 
 // Initialize the application
-Watcher.init = function() {
+StopDrop.init = function() {
     // bind events to the document
-    $(document).bind('commodalConfirm commodalPrompt', Watcher.eventListener);
+    $(document).bind('commodalConfirm commodalPrompt', StopDrop.eventListener);
 
     // check to see if the user's browser supports Web SQL
     if (typeof openDatabase !== 'function') {
-        Commodal.confirm('Your browser does not support Web SQL, the database system Watcher uses to store your watch data on your computer.<p>Please download a browser, such as <a href="http://google.com/chrome" target="_blank">Chrome</a>, <a href="http://www.apple.com/safari/" target="_blank">Safari</a>, or <a href="http://www.opera.com/" target="_blank">Opera</a>, which supports Web SQL.</p>');
+        Commodal.confirm('Your browser does not support Web SQL, the database system StopDrop uses to store your watch data on your computer.<p>Please download a browser, such as <a href="http://google.com/chrome" target="_blank">Chrome</a>, <a href="http://www.apple.com/safari/" target="_blank">Safari</a>, or <a href="http://www.opera.com/" target="_blank">Opera</a>, which supports Web SQL.</p>');
     }
     else {
-        Watcher.connectToDB();
+        StopDrop.connectToDB();
 
-        if (Watcher.db.version !== Watcher.currentVersion) {
-            Watcher.upgradeDB();
+        if (StopDrop.db.version !== StopDrop.currentVersion) {
+            StopDrop.upgradeDB();
         }
 
-        Watcher.loadOptions();
-        Watcher.getWatches();
-        Watcher.calcTotalTime();
+        StopDrop.loadOptions();
+        StopDrop.getWatches();
+        StopDrop.calcTotalTime();
     }
 };
 /* ------------------ END HELPER FUNCTIONS ------------------ */
 
 $(function() {
-    Watcher.init();
+    StopDrop.init();
 
-    Watcher.$notification = $('.notification');
+    StopDrop.$notification = $('.notification');
 
     $('.watches').sortable({
         axis : 'y',
@@ -719,7 +719,7 @@ $(function() {
         update : function() {
             var results = $(this).sortable('toArray');
 
-            Watcher.updateRanks(results);
+            StopDrop.updateRanks(results);
         }
     });
 
@@ -732,11 +732,11 @@ $(function() {
         e.preventDefault();
 
         Global.currentAction = {
-            "action" : Watcher.toggleCollapsed,
+            "action" : StopDrop.toggleCollapsed,
             "id" : id
         };
 
-        Watcher.toggleCollapsed();
+        StopDrop.toggleCollapsed();
     });
 
     $(document).on('click', '.name', function() {
@@ -751,12 +751,12 @@ $(function() {
         var $this = $(this);
 
         Global.currentAction = {
-            "action" : Watcher.updateName,
+            "action" : StopDrop.updateName,
             "id" : $this.parents('.stopwatch').attr('id'),
             "name" : $this.val()
         };
 
-        Watcher.updateName();
+        StopDrop.updateName();
         $this.replaceWith('<span class="name">' + $this.val() + '</span>');
     });
 
@@ -768,56 +768,56 @@ $(function() {
 
     $(document).on('click', '.start', function() {
         Global.currentAction = {
-            "action" : Watcher.startTime,
+            "action" : StopDrop.startTime,
             "id" : $(this).parents('.stopwatch').attr('id')
         };
 
-        Watcher.startTime();
+        StopDrop.startTime();
     });
 
     $(document).on('click', '.pause', function() {
         Global.currentAction = {
-            "action" : Watcher.pauseTime,
+            "action" : StopDrop.pauseTime,
             "id" : $(this).parents('.stopwatch').attr('id')
         };
 
-        Watcher.pauseTime();
+        StopDrop.pauseTime();
     });
 
     $(document).on('click', '.reset', function() {
         Global.currentAction = {
-            "action" : Watcher.resetTime,
+            "action" : StopDrop.resetTime,
             "id" : $(this).parents('.stopwatch').attr('id')
         };
 
-        Watcher.resetTime(false);
+        StopDrop.resetTime(false);
     });
 
     $(document).on('click', '.delete', function() {
         Global.currentAction = {
-            "action" : Watcher.deleteWatch,
+            "action" : StopDrop.deleteWatch,
             "id" : $(this).parents('.stopwatch').attr('id')
         };
 
-        Watcher.deleteWatch();
+        StopDrop.deleteWatch();
     });
 
     $(document).on('click', '.add', function() {
         Global.currentAction = {
-            "action" : Watcher.addTime,
+            "action" : StopDrop.addTime,
             "id" : $(this).parents('.stopwatch').attr('id')
         };
 
-        Watcher.addTime();
+        StopDrop.addTime();
     });
 
     $(document).on('click', '.subtract', function() {
         Global.currentAction = {
-            "action" : Watcher.subtractTime,
+            "action" : StopDrop.subtractTime,
             "id" : $(this).parents('.stopwatch').attr('id')
         };
 
-        Watcher.subtractTime();
+        StopDrop.subtractTime();
     });
 
     $(document).on('click', '.color-selector', function() {
@@ -835,12 +835,12 @@ $(function() {
         var $this = $(this);
 
         Global.currentAction = {
-            "action" : Watcher.setTheme,
+            "action" : StopDrop.setTheme,
             "id" : $this.parents('.stopwatch').attr('id'),
             "theme" : $this.attr('class')
         };
 
-        Watcher.setTheme();
+        StopDrop.setTheme();
     });
     /* ------------ END STOPWATCH BUTTONS ----------- */
 
@@ -881,47 +881,47 @@ $(function() {
 
     /* ------------ PERSISTENT BUTTONS ------------ */
     $('.new').on('click', function() {
-        Global.currentAction.action = Watcher.createWatch;
+        Global.currentAction.action = StopDrop.createWatch;
 
-        Watcher.createWatch();
+        StopDrop.createWatch();
     });
 
     $('.reset-all').on('click', function() {
-        Global.currentAction.action = Watcher.resetAll;
+        Global.currentAction.action = StopDrop.resetAll;
 
-        Watcher.resetAll();
+        StopDrop.resetAll();
     });
 
     $('.delete-all').on('click', function() {
-        Global.currentAction.action = Watcher.deleteAll;
+        Global.currentAction.action = StopDrop.deleteAll;
 
-        Watcher.deleteAll();
+        StopDrop.deleteAll();
     });
 
     $('.pause-all').on('click', function() {
-        Global.currentAction.action = Watcher.pauseAll;
+        Global.currentAction.action = StopDrop.pauseAll;
 
-        Watcher.pauseAll();
+        StopDrop.pauseAll();
     });
 
     $('.expand-all').on('click', function() {
-        Global.currentAction.action = Watcher.expandAll;
+        Global.currentAction.action = StopDrop.expandAll;
 
-        Watcher.expandAll();
+        StopDrop.expandAll();
     });
 
     $('.collapse-all').on('click', function() {
-        Global.currentAction.action = Watcher.collapseAll;
+        Global.currentAction.action = StopDrop.collapseAll;
 
-        Watcher.collapseAll();
+        StopDrop.collapseAll();
     });
 
     $('#single-watch').on('change', function() {
-        Watcher.setOption('singleWatch', $(this).is(':checked').toString());
+        StopDrop.setOption('singleWatch', $(this).is(':checked').toString());
     });
 
     $('#track-immediately').on('change', function() {
-        Watcher.setOption('trackImmediately', $(this).is(':checked').toString());
+        StopDrop.setOption('trackImmediately', $(this).is(':checked').toString());
     });
     /* ------------ END PERSISTENT BUTTONS ------------ */
 
