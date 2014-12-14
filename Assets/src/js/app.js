@@ -24,6 +24,12 @@ $(function() {
 			time.pauseTime(id);
 		});
 
+		$(document).on('click', '.delete', function() {
+			var id = $(this).parents('.stopwatch').attr('id');
+
+			watches.deleteWatch(id);
+		});
+
 		$(document).on('click', '.colors div', function() {
 			var $this = $(this),
 				id = $this.parents('.stopwatch').attr('id'),

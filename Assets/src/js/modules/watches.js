@@ -37,6 +37,17 @@ function createWatch() {
 	}
 }
 
+function deleteWatch(id) {
+	if (window.confirm('Are you sure you want to delete this watch?')) {
+		$('#' + id).hide(500, function() {
+			var watch = getWatch(id);
+
+			removeWatch(id);
+			watch.deleteRecord();
+		});
+	}
+}
+
 function setTheme(id, theme) {
 	var watch = getWatch(id);
 
@@ -91,6 +102,7 @@ function appendWatches() {
 	}
 }
 
+// Removes a watch from the DOM
 function removeWatch(id) {
 	$('#' + id).remove();
 }
@@ -98,9 +110,11 @@ function removeWatch(id) {
 // sets up listener to sync watches UI
 function setWatchesSync() {
 	datastore.recordsChanged.addListener(function(e) {
-		var watchesAffected = e.affectedRecordsForTable('watches');
+		var watches = getWatches();
 
-		watchesAffected.forEach(function(watch) {
+		$('.watches').empty();
+
+		watches.forEach(function(watch) {
 			var watchId = watch.getId(),
 				watchToAppend = {
 					name: watch.get('name'),
@@ -110,15 +124,17 @@ function setWatchesSync() {
 					collapsed: watch.get('collapsed')
 				};
 
-			removeWatch(watchId);
 			appendWatch(watchId, watchToAppend);
 		});
+
+		time.calcTotalTime();
 	});
 }
 
 exports.getWatches = getWatches;
 exports.getWatch = getWatch;
 exports.createWatch = createWatch;
+exports.deleteWatch = deleteWatch;
 exports.appendWatches = appendWatches;
 exports.setTheme = setTheme;
 exports.setWatchesSync = setWatchesSync;
