@@ -16,8 +16,15 @@ body {
   margin: 0;
   padding: 0; }
 
+#welcome {
+  color: black;
+  margin: 1em auto;
+  text-align: center;
+}
+
 /* line 22, ../scss/stopdrop.scss */
 #container {
+  display: none;
   height: 100%;
   overflow-y: auto;
   -webkit-overflow-scrolling: touch;
