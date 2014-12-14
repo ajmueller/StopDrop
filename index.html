@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>Watcher</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes">
+	<link rel="apple-touch-icon-precomposed" sizes="57x57" href="img/apple-touch-icon-57x57-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="img/apple-touch-icon-72x72-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="img/apple-touch-icon-114x114-precomposed.png" />
+	<link rel="apple-touch-icon-precomposed" sizes="144x144" href="img/apple-touch-icon-144x144-precomposed.png" />
+	<script type="text/javascript" src="js/jquery.min.js"></script>
+	<script type="text/javascript" src="js/jquery-ui.custom.min.js"></script>
+	<script type="text/javascript" src="js/jquery.ui.touch-punch.min.js"></script>
+	<script type="text/javascript" src="js/jquery.mobile-events.min.js"></script>
+	<script type="text/javascript" src="js/global.js?v=1.4.2"></script>
+	<script type="text/javascript" src="js/commodal.js?v=1.4.2"></script>
+	<script type="text/javascript" src="js/watcher.js?v=1.4.2"></script>
+	<link rel="stylesheet" href="css/watcher.css?v=1.4.2" />
+	<script type="text/javascript">
+	  var _gaq = _gaq || [];
+	  _gaq.push(['_setAccount', 'UA-36726023-1']);
+	  _gaq.push(['_trackPageview']);
+	
+	  (function() {
+	    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+	    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+	    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+	  })();
+	</script>
+</head>
+<body>
+	<div id="container">
+		<ul class="watches">
+		</ul>
+		<footer>
+			<button class="new">New</button>
+			<button class="reset-all">Reset all</button>
+			<button class="delete-all">Delete all</button>
+			<button class="pause-all">Pause all</button>
+			<button class="expand-all">Expand all</button>
+			<button class="collapse-all">Collapse all</button>
+			<p class="total clear">
+				Total (Rounded Total):<br />
+				<span class="total sum"></span>
+			</p>
+			<p class="total">
+				Sum of Rounded Times:<br />
+				<span class="total rounded-sum"></span>
+			</p>
+			<div class="options">
+				<input type="checkbox" id="single-watch" name="single-watch" /><label for="single-watch"> Only allow one watch to track at a time</label><br />
+				<input type="checkbox" id="track-immediately" name="track-immediately" /><label for="track-immediately"> Begin tracking watches immediately after they're created</label>
+			</div>
+		</footer>
+	</div>
+	<div class="notification"></div>
+	<div id="mask" class="close-modal">
+		<div id="modal"></div>
+	</div>
+</body>
+</html>
