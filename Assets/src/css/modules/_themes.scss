@@ -1,0 +1,111 @@
+.color-selector {
+	clear: left;
+	cursor: pointer;
+	float: left;
+	height: 1em;
+	margin-top: 0.5em;
+	width: 1em;
+
+	div {
+		float: left;
+		height: 50%;
+		outline: none !important;
+		width: 50%;
+	}
+}
+
+.colors {
+	clear: left;
+	color: black;
+	display: none;
+	float: left;
+	height: 1em;
+	margin-top: 0.5em;
+
+	div {
+		cursor: pointer;
+		display: inline-block;
+		height: 1em;
+		margin: 0em 0.25em 0 0;
+		width: 1em;
+	}
+}
+
+// colors are from http://iosdesign.ivomynttinen.com/
+.black {
+	background: #0e0e0e;
+
+	+ .block {
+		border-top: 1px solid white;
+	}
+}
+
+.red {
+	background: #ff3824;
+
+	+ .red {
+		border-top: 1px solid white;
+	}
+}
+
+.orange {
+	background: #ff9600;
+	color: #0e0e0e;
+
+	+ .orange {
+		border-top: 1px solid black;
+	}
+}
+
+.yellow {
+	background: #ffcd00;
+	color: #0e0e0e;
+
+	+ .yellow {
+		border-top: 1px solid black;
+	}
+}
+
+.green {
+	background: #44db5e;
+
+	+ .green {
+		border-top: 1px solid white;
+	}
+}
+
+.blue {
+	background: #0076ff;
+
+	+ .blue {
+		border-top: 1px solid white;
+	}
+}
+
+.violet {
+	background: #502f79;
+
+	+ .violet {
+		border-top: 1px solid white;
+	}
+}
+
+.black .black,
+.black .color-selector,
+.red .red,
+.red .color-selector,
+.green .green,
+.green .color-selector,
+.blue .blue,
+.blue .color-selector,
+.violet .violet,
+.violet .color-selector {
+	outline: 1px solid white;
+}
+
+.orange .orange,
+.orange .color-selector,
+.yellow .yellow,
+.yellow .color-selector {
+	outline: 1px solid black;
+}

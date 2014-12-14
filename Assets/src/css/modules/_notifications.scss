@@ -1,0 +1,32 @@
+.notification {
+	bottom: 1em;
+	color: black;
+	display: none;
+	font-weight: 300;
+	left: 50%;
+	margin-left: -150px;
+	position: fixed;
+	text-align: center;
+	width: 300px;
+}
+
+.error {
+	background: image('exclamation-red.png') no-repeat 4px 6px #ff7373;
+	border: 1px solid #A60000;
+	color: white;
+}
+
+.success {
+	background-color: #B7EFB4;
+	border: 1px solid #078600;
+}
+
+.warning {
+	background: image('exclamation-circle.png') no-repeat 4px 6px #faf9b4;
+	border: 1px solid #DBD801;
+}
+
+.information {
+	background: image('information.png') no-repeat 4px 6px #d7e0f5;
+	border: 1px solid #25489A;
+}
