@@ -1,7 +1,8 @@
 var client = null,
 	appDatastore = null,
 	datastoreManager = null,
-	appKey = 'vng10ukrxiq1gsk';
+	appKey = 'vng10ukrxiq1gsk',
+	options = require('./options.js');
 
 function authenticateClient() {
 	var clientAuthenticated = false;
@@ -43,15 +44,10 @@ function getDatastoreManager() {
 		else {
 			datastoreManagerRetrieved = true;
 			global.datastore = datastore;
+			options.getOptions();
+			options.setOptionsSync();
 			console.log('datastore set');
 		}
-
-
-		// Now you have a datastore. The next few examples can be included here.
-		// StopDrop.datastore = datastore;
-		// StopDrop.getOptions();
-
-		// StopDrop.setOptionSync();
 	});
 
 	return datastoreManagerRetrieved;
