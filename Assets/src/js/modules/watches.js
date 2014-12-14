@@ -22,6 +22,10 @@ function getWatches() {
 	}
 }
 
+function getWatch(id) {
+	return watches.get(id);
+}
+
 function createWatch() {
 	var watch = null,
 		watchId = null,
@@ -46,11 +50,17 @@ function createWatch() {
 	}
 }
 
+function setTheme(id, theme) {
+	var watch = getWatch(id);
+
+	watch.set('theme', theme);
+	console.log('updated theme for ' + id + ' to ' + theme);
+}
+
 function appendWatch(id, watch) {
 	var status,
 		buttons,
 		html,
-		colorSelector = '<div class="color-selector"><div class="red"></div><div class="yellow"></div><div class="green"></div><div class="blue"></div></div>',
 		colors = '<div class="colors"><div class="black"></div><div class="red"></div><div class="orange"></div><div class="yellow"></div><div class="green"></div><div class="blue"></div><div class="violet"></div></div>';
 
 	if (watch.tracking) {
@@ -67,10 +77,14 @@ function appendWatch(id, watch) {
 		watch.theme += " collapsed";
 	}
 
-	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="handle">&#x2261;</span><span class="name">' + watch.name + '</span><span class="time">' + status + '</span></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colorSelector + colors + '</li>';
+	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="handle">&#x2261;</span><span class="name">' + watch.name + '</span><span class="time">' + status + '</span></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colors + '</li>';
 	$('.watches').append(html);
 
 	console.log('Watch with ID ' + id + ' added to UI');
+}
+
+function removeWatch(id) {
+	$('#' + id).remove();
 }
 
 // sets up listener to sync watches UI
@@ -88,11 +102,13 @@ function setWatchesSync() {
 					collapsed: watch.get('collapsed')
 				};
 
+			removeWatch(watchId);
 			appendWatch(watchId, watchToAppend);
 		});
 	});
 }
 
 exports.getWatches = getWatches;
-exports.setWatchesSync = setWatchesSync;
 exports.createWatch = createWatch;
+exports.setTheme = setTheme;
+exports.setWatchesSync = setWatchesSync;

@@ -10,14 +10,28 @@ var dataLayer = require('./modules/dataLayer.js'),
 $(function() {
 	// binds all clicks and change events to UI elements
 	function bindInteractions() {
+		// ----- CONTROLS ------
+		$(document).on('click', '.colors div', function() {
+			var $this = $(this),
+				id = $this.parents('.stopwatch').attr('id'),
+				theme = $this.attr('class');
+
+			watches.setTheme(id, theme);
+		});
+
+		// ----- WATCHES ------
 		$('.new').click(function(e) {
 			watches.createWatch();
 		});
 
+
+		// ------ LOGIN -------
 		$('#authenticate').click(function(e) {
 			client.authenticate();
 		});
 
+
+		// ----- OPTIONS -----
 		$('#singleWatch').on('change', function() {
 			options.updateOption('singleWatch', $(this).is(':checked'));
 		});
