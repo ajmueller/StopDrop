@@ -107,6 +107,21 @@ function startTime(id) {
 	$time.text("Tracking...");
 }
 
+// Resets the time for a watch
+function resetTime(id) {
+	var watch = watches.getWatch(id);
+
+	if (window.confirm('Are you sure you want to reset this watch?')) {
+		pauseTime(id);
+
+		watch
+			.set('sessionStart', 0)
+			.set('sessionEnd', 0)
+			.set('sessionTime', 0)
+			.set('totalTime', 0);
+	}
+}
+
 function padZeroes(number) {
 	if (number < 10) {
 		return "0" + number;
@@ -120,3 +135,4 @@ exports.calcTime = calcTime;
 exports.calcTotalTime = calcTotalTime;
 exports.pauseTime = pauseTime;
 exports.startTime = startTime;
+exports.resetTime = resetTime;
