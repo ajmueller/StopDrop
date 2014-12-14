@@ -109,6 +109,7 @@ function setWatchesSync() {
 }
 
 exports.getWatches = getWatches;
+exports.getWatch = getWatch;
 exports.createWatch = createWatch;
 exports.setTheme = setTheme;
 exports.setWatchesSync = setWatchesSync;
