@@ -2,12 +2,12 @@ require('./vendor/jquery.min.js');
 require('./vendor/jquery.ui-custom.min.js');
 require('./vendor/jquery.ui-touch-punch.min.js');
 require('./vendor/jquery.mobile-events.min.js');
-var datastore = require('./modules/datastore.js'),
-	client = null;
+var dataLayer = require('./modules/dataLayer.js'),
+	client = null,
+	datastore = null;
 
 $(function() {
 	var StopDrop = {
-		datastore: null,
 		datastoreManager: null
 	};
 
@@ -31,26 +31,9 @@ $(function() {
 		console.log('interactions bound');
 	};
 
-	// gets the user's default datastore
-	StopDrop.getDatastoreManager = function() {
-		StopDrop.datastoreManager = client.getDatastoreManager();
-
-		StopDrop.datastoreManager.openDefaultDatastore(function (error, datastore) {
-			if (error) {
-				alert('Error opening default datastore: ' + error);
-			}
-
-			// Now you have a datastore. The next few examples can be included here.
-			StopDrop.datastore = datastore;
-			StopDrop.getOptions();
-
-			StopDrop.setOptionSync();
-		});
-	};
-
 	// retrieves the user's options from their datastore
 	StopDrop.getOptions = function() {
-		StopDrop.options = StopDrop.datastore.getTable('options');
+		StopDrop.options = datastore.getTable('options');
 
 		if (StopDrop.options.query().length === 0) {
 			StopDrop.initializeOptions();
@@ -85,7 +68,7 @@ $(function() {
 
 	// sets up listener to sync options UI
 	StopDrop.setOptionSync = function() {
-		StopDrop.datastore.recordsChanged.addListener(function(e) {
+		datastore.recordsChanged.addListener(function(e) {
 			var options = e.affectedRecordsForTable('options');
 
 			options.forEach(function(option) {
@@ -124,11 +107,11 @@ $(function() {
 	};
 
 	StopDrop.init = function() {
-		client = datastore.getClient();
+		client = dataLayer.getClient();
 		StopDrop.bindInteractions();
 
 		if(client.isAuthenticated()) {
-			StopDrop.getDatastoreManager();
+			dataLayer.getDatastoreManager();
 		}
 	};
 
