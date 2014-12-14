@@ -86,6 +86,8 @@ function appendWatches() {
 
 			appendWatch(watchId, watchToAppend);
 		});
+
+		time.calcTotalTime();
 	}
 }
 

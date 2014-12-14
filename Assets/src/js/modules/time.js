@@ -2,9 +2,8 @@ var watches = require('./watches.js'),
 	options = require('./options.js');
 
 // Calculates the time for a given watch
-function calcTime(id, time) {
-	var $time = $('#' + id).find('.time'),
-		time = Math.floor(time / 1000),		// convert milliseconds to seconds
+function formatTime(time) {
+	var time = Math.floor(time / 1000),		// convert milliseconds to seconds
 		hours = Math.floor(time / 3600),
 		quarters = Math.round((time % 3600) / 900),
 		minutes = Math.floor((time % 3600) / 60),
@@ -13,9 +12,46 @@ function calcTime(id, time) {
 		noun = (bigTimeHours === 1) ? 'hour' : 'hours',
 		text = padZeroes(hours) + ":" + padZeroes(minutes) + ":" + padZeroes(seconds) + " (" + bigTimeHours + " " + noun + ")";
 
+	return text;
+}
+
+// Calculates time rounded to 0.25 hours
+function roundTime(time) {
+	var time = Math.floor(time / 1000),		// convert milliseconds to seconds
+		hours = Math.floor(time / 3600),
+		quarters = Math.round((time % 3600) / 900),
+		roundedTime = hours + (quarters * 0.25);
+
+	return roundedTime;
+}
+
+// Calculates the total time for one watch
+function calcTime(id, time) {
+	var $time = $('#' + id).find('.time'),
+		text = formatTime(time);
+
 	$time.text(text);
 
 	return text;
+}
+
+// Calculates the total time for all watches
+function calcTotalTime() {
+	var allWatches = watches.getWatches(),
+		totalTime = 0,
+		totalRoundedTime = 0,
+		$total = $('.sum'),
+		$roundedTotal = $('.rounded-sum');
+
+	allWatches.forEach(function(watch) {
+		totalTime += watch.get('totalTime');
+		totalRoundedTime += roundTime(watch.get('totalTime'));
+	});
+
+	totalRoundedTime += " " + ((totalRoundedTime === 1) ? 'hour' : 'hours');
+
+	$total.text(formatTime(totalTime));
+	$roundedTotal.text(totalRoundedTime);
 }
 
 // Pauses tracking for a watch
@@ -36,6 +72,7 @@ function pauseTime(id) {
 		.set('totalTime', totalTime)
 		.set('tracking', false);
 
+	calcTotalTime();
 	$watch.removeClass('tracking');
 	$pause.addClass('hide');
 	$start.removeClass('hide');
@@ -80,5 +117,6 @@ function padZeroes(number) {
 }
 
 exports.calcTime = calcTime;
+exports.calcTotalTime = calcTotalTime;
 exports.pauseTime = pauseTime;
 exports.startTime = startTime;
