@@ -84,6 +84,28 @@ function setTheme(id, theme) {
 	console.log('updated theme for ' + id + ' to ' + theme);
 }
 
+function expandAll() {
+	var watches = getWatches();
+
+	watches.forEach(function(watch) {
+		var id = watch.getId();
+
+		$('#' + id).removeClass('collapsed');
+		watch.set('collapsed', false);
+	});
+}
+
+function collapseAll() {
+	var watches = getWatches();
+
+	watches.forEach(function(watch) {
+		var id = watch.getId();
+
+		$('#' + id).addClass('collapsed');
+		watch.set('collapsed', true);
+	});
+}
+
 function appendWatch(id, watch) {
 	var status,
 		buttons,
@@ -167,4 +189,6 @@ exports.deleteWatch = deleteWatch;
 exports.deleteAll = deleteAll;
 exports.appendWatches = appendWatches;
 exports.setTheme = setTheme;
+exports.expandAll = expandAll;
+exports.collapseAll = collapseAll;
 exports.setWatchesSync = setWatchesSync;

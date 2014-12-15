@@ -68,6 +68,14 @@ $(function() {
 			watches.setTheme(id, theme);
 		});
 
+		$('.expand-all').click(function() {
+			watches.expandAll();
+		});
+
+		$('.collapse-all').click(function() {
+			watches.collapseAll();
+		});
+
 		// ----- WATCHES ------
 		$('.new').click(function(e) {
 			watches.createWatch();
