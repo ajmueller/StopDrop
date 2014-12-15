@@ -24,6 +24,10 @@ $(function() {
 			time.pauseTime(id);
 		});
 
+		$('.pause-all').click(function() {
+			time.pauseAll();
+		});
+
 		$(document).on('click', '.delete', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 

@@ -80,6 +80,17 @@ function pauseTime(id) {
 	console.log('time paused for ' + id);
 }
 
+// Pauses all watches
+function pauseAll() {
+	var allWatches = watches.getWatches();
+
+	allWatches.forEach(function(watch) {
+		var id = watch.getId();
+
+		pauseTime(id);
+	});
+}
+
 // Starts tracking for a watch
 function startTime(id) {
 	var watch = watches.getWatch(id),
@@ -174,6 +185,7 @@ function padZeroes(number) {
 exports.calcTime = calcTime;
 exports.calcTotalTime = calcTotalTime;
 exports.pauseTime = pauseTime;
+exports.pauseAll = pauseAll;
 exports.startTime = startTime;
 exports.resetTime = resetTime;
 exports.resetAll = resetAll;
