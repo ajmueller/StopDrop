@@ -88,10 +88,11 @@ function startTime(id) {
 		$start = $watch.find('.start'),
 		$time = $watch.find('.time'),
 		sessionStart = new Date(),
-		$trackingWatches = $('.tracking');
+		$trackingWatches = $('.tracking'),
+		singleWatch = options.getOption('singleWatch');
 
 	// pause all watches that are tracking
-	if (options.getOption('singleWatch')) {
+	if (singleWatch.get('value')) {
 		$trackingWatches.each(function() {
 			pauseTime($(this).attr('id'));
 		});

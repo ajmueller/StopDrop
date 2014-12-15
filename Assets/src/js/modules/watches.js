@@ -17,12 +17,20 @@ function createWatch() {
 	var watch = null,
 		watchId = null,
 		watchName = window.prompt('Please enter a name for this watch:'),
-		tracking = options.getOption('trackImmediately');
+		tracking = options.getOption('trackImmediately'),
+		singleWatch = options.getOption('singleWatch');
 
 	tracking = tracking.get('value');
+	singleWatch = singleWatch.get('value');
 
 	// add watch to datastore
 	if (watchName) {
+		if (singleWatch) {
+			$('.tracking').each(function() {
+				time.pauseTime($(this).attr('id'));
+			});
+		}
+
 		watch = watches.insert({
 			name: watchName,
 			sessionStart: new Date(),
