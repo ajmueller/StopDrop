@@ -9,13 +9,13 @@ function getWatches() {
 }
 
 function getWatch(id) {
-	var watches = getWatches();
+	var watches = datastore.getTable('watches');
 
 	return watches.get(id);
 }
 
 function createWatch() {
-	var watches = getWatches(),
+	var watchesTable = datastore.getTable('watches'),
 		watch = null,
 		watchId = null,
 		watchName = window.prompt('Please enter a name for this watch:'),
@@ -33,7 +33,7 @@ function createWatch() {
 			});
 		}
 
-		watch = watches.insert({
+		watch = watchesTable.insert({
 			name: watchName,
 			sessionStart: new Date(),
 			sessionEnd: new Date(),
