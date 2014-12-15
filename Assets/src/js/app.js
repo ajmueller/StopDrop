@@ -12,6 +12,14 @@ $(function() {
 	// binds all clicks and change events to UI elements
 	function bindInteractions() {
 		// ----- CONTROLS ------
+		$(document).on('doubletap', '.stopwatch', function(e) {
+			var id = ($(e.target).is('.stopwatch')) ? $(e.target).attr('id') : $(e.target).parents('.stopwatch').attr('id');
+
+			e.preventDefault();
+
+			watches.toggleCollapsed(id);
+		});
+
 		$(document).on('click', '.start', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 
@@ -76,7 +84,6 @@ $(function() {
 			watches.collapseAll();
 		});
 
-		// ----- WATCHES ------
 		$('.new').click(function(e) {
 			watches.createWatch();
 		});

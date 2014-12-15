@@ -106,6 +106,14 @@ function collapseAll() {
 	});
 }
 
+function toggleCollapsed(id) {
+	var watch = getWatch(id),
+		$watch = $('#' + id);
+
+	$watch.toggleClass('collapsed');
+	watch.set('collapsed', $watch.hasClass('collapsed'));
+}
+
 function appendWatch(id, watch) {
 	var status,
 		buttons,
@@ -191,4 +199,5 @@ exports.appendWatches = appendWatches;
 exports.setTheme = setTheme;
 exports.expandAll = expandAll;
 exports.collapseAll = collapseAll;
+exports.toggleCollapsed = toggleCollapsed;
 exports.setWatchesSync = setWatchesSync;
