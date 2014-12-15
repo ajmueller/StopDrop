@@ -32,28 +32,16 @@ $(function() {
 			time.pauseTime(id);
 		});
 
-		$('.pause-all').click(function() {
-			time.pauseAll();
-		});
-
 		$(document).on('click', '.delete', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 
 			watches.deleteWatch(id);
 		});
 
-		$('.delete-all').click(function() {
-			watches.deleteAll();
-		});
-
 		$(document).on('click', '.reset', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 
 			time.resetTime(id);
-		});
-
-		$('.reset-all').click(function() {
-			time.resetAll();
 		});
 
 		$(document).on('click', '.add', function() {
@@ -76,6 +64,30 @@ $(function() {
 			watches.setTheme(id, theme);
 		});
 
+
+		// ------ LOGIN -------
+		$('#authenticate').click(function(e) {
+			client.authenticate();
+		});
+
+
+		// ----- OPTIONS AND PERSISTENT BUTTONS -----
+		$('.new').click(function(e) {
+			watches.createWatch();
+		});
+
+		$('.delete-all').click(function() {
+			watches.deleteAll();
+		});
+
+		$('.reset-all').click(function() {
+			time.resetAll();
+		});
+
+		$('.pause-all').click(function() {
+			time.pauseAll();
+		});
+
 		$('.expand-all').click(function() {
 			watches.expandAll();
 		});
@@ -84,18 +96,6 @@ $(function() {
 			watches.collapseAll();
 		});
 
-		$('.new').click(function(e) {
-			watches.createWatch();
-		});
-
-
-		// ------ LOGIN -------
-		$('#authenticate').click(function(e) {
-			client.authenticate();
-		});
-
-
-		// ----- OPTIONS -----
 		$('#singleWatch').on('change', function() {
 			options.updateOption('singleWatch', $(this).is(':checked'));
 		});
