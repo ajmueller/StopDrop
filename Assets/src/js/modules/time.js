@@ -162,7 +162,7 @@ function adjustTime(id, adjustment) {
 	var watch = watches.getWatch(id),
 		totalTime = watch.get('totalTime'),
 		multiplier = (adjustment === 'subtract') ? -1 : 1,
-		timeToAdjust = multiplier * 15 * 60 * 1000,
+		timeToAdjust = 15 * 60 * 1000,
 		$watch = $('#' + id);
 
 	if ($watch.is('.tracking')) {
@@ -171,7 +171,7 @@ function adjustTime(id, adjustment) {
 
 	if ( ((totalTime >= timeToAdjust) && multiplier === -1) || multiplier === 1) {
 		watch
-			.set('totalTime', watch.get('totalTime') + timeToAdjust)
+			.set('totalTime', watch.get('totalTime') + (timeToAdjust * multiplier))
 			.set('tracking', false);
 	}
 }
