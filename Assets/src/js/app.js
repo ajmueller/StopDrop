@@ -11,6 +11,18 @@ var dataLayer = require('./modules/dataLayer.js'),
 $(function() {
 	// binds all clicks and change events to UI elements
 	function bindInteractions() {
+		// ----- SORTING ------
+		$('.watches').sortable({
+			axis : 'y',
+			handle : 'span.handle',
+			placeholder : 'placeholder',
+			update : function() {
+				var results = $(this).sortable('toArray');
+
+				watches.updateOrder(results);
+			}
+		});
+
 		// ----- CONTROLS ------
 		$(document).on('doubletap', '.stopwatch', function(e) {
 			var id = ($(e.target).is('.stopwatch')) ? $(e.target).attr('id') : $(e.target).parents('.stopwatch').attr('id');

@@ -41,7 +41,7 @@ function createWatch() {
 			totalTime: 0,
 			tracking: tracking,
 			collapsed: false,
-			rank: 0,
+			order: 0,
 			theme: 'blue'
 		});
 	}
@@ -114,6 +114,14 @@ function toggleCollapsed(id) {
 	watch.set('collapsed', $watch.hasClass('collapsed'));
 }
 
+function updateOrder(results) {
+	results.forEach(function(watchId, i) {
+		var watch = getWatch(watchId);
+
+		watch.set('order', i);
+	});
+}
+
 function appendWatch(id, watch) {
 	var status,
 		buttons,
@@ -134,7 +142,7 @@ function appendWatch(id, watch) {
 		watch.theme += " collapsed";
 	}
 
-	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="handle">&#x2261;</span><span class="name">' + watch.name + '</span><span class="time">' + status + '</span></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colors + '</li>';
+	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="name">' + watch.name + '</span><span class="time">' + status + '</span></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colors + '</li>';
 	$('.watches').append(html);
 
 	console.log('Watch with ID ' + id + ' added to UI');
@@ -200,4 +208,5 @@ exports.setTheme = setTheme;
 exports.expandAll = expandAll;
 exports.collapseAll = collapseAll;
 exports.toggleCollapsed = toggleCollapsed;
+exports.updateOrder = updateOrder;
 exports.setWatchesSync = setWatchesSync;
