@@ -1,0 +1,2 @@
+[config]
+command = Assets\src\Build\deploy.cmd
