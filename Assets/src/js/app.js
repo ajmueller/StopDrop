@@ -32,6 +32,28 @@ $(function() {
 			watches.toggleCollapsed(id);
 		});
 
+		$(document).on('click', '.name', function() {
+			var $this = $(this),
+				name = $this.text();
+
+			$this.replaceWith('<input type="text" class="name-input" value="' + name + '" />');
+			$('.name-input').focus();
+		});
+
+		$(document).on('blur', '.name-input', function() {
+			var $this = $(this),
+				id = $this.parents('.stopwatch').attr('id'),
+				name = $this.val();
+
+			watches.updateName(id, name);
+			$this.replaceWith('<span class="name">' + $this.val() + '</span>');
+		})
+		.on('keydown', '.name-input', function(e) {
+			if (e.keyCode === 13) {
+				$(this).blur();
+			}
+		});
+
 		$(document).on('click', '.start', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 

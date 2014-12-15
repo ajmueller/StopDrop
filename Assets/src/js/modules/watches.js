@@ -122,6 +122,12 @@ function updateOrder(results) {
 	});
 }
 
+function updateName(id, name) {
+	var watch = getWatch(id);
+
+	watch.set('name', name);
+}
+
 function appendWatch(id, watch) {
 	var status,
 		buttons,
@@ -209,4 +215,5 @@ exports.expandAll = expandAll;
 exports.collapseAll = collapseAll;
 exports.toggleCollapsed = toggleCollapsed;
 exports.updateOrder = updateOrder;
+exports.updateName = updateName;
 exports.setWatchesSync = setWatchesSync;
