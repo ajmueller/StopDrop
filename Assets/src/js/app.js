@@ -39,13 +39,13 @@ $(function() {
 		$(document).on('click', '.add', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 
-			time.addTime(id);
+			time.adjustTime(id, 'add');
 		});
 
 		$(document).on('click', '.subtract', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 
-			time.subtractTime(id);
+			time.adjustTime(id, 'subtract');
 		});
 
 		$(document).on('click', '.colors div', function() {
