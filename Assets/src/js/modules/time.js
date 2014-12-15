@@ -87,7 +87,10 @@ function pauseAll() {
 	allWatches.forEach(function(watch) {
 		var id = watch.getId();
 
-		pauseTime(id);
+		if (watch.get('tracking')) {
+			pauseTime(id);
+		}
+
 	});
 }
 
