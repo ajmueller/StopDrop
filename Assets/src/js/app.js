@@ -30,6 +30,10 @@ $(function() {
 			watches.deleteWatch(id);
 		});
 
+		$('.delete-all').click(function() {
+			watches.deleteAll();
+		});
+
 		$(document).on('click', '.reset', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 

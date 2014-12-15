@@ -47,13 +47,32 @@ function createWatch() {
 	}
 }
 
-function deleteWatch(id) {
-	if (window.confirm('Are you sure you want to delete this watch?')) {
+function deleteWatch(id, confirm) {
+	function deleteWatchConfirmed() {
 		$('#' + id).hide(500, function() {
 			var watch = getWatch(id);
 
 			removeWatch(id);
 			watch.deleteRecord();
+		});
+	}
+
+	if (confirm) {
+		deleteWatchConfirmed();
+	}
+	else if (window.confirm('Are you sure you want to delete this watch?')) {
+		deleteWatchConfirmed();
+	}
+}
+
+function deleteAll() {
+	var watches = getWatches();
+
+	if (window.confirm('Are you sure you want to delete all watches?')) {
+		watches.forEach(function(watch) {
+			var id = watch.getId();
+
+			deleteWatch(id, true);
 		});
 	}
 }
@@ -145,6 +164,7 @@ exports.getWatches = getWatches;
 exports.getWatch = getWatch;
 exports.createWatch = createWatch;
 exports.deleteWatch = deleteWatch;
+exports.deleteAll = deleteAll;
 exports.appendWatches = appendWatches;
 exports.setTheme = setTheme;
 exports.setWatchesSync = setWatchesSync;
