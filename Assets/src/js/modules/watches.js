@@ -1,20 +1,22 @@
-var watches = null,
-	options = require('./options.js'),
+var options = require('./options.js'),
 	time = require('./time.js');
 
 // retrieves the user's watches from their datastore
 function getWatches() {
-	watches = datastore.getTable('watches');
+	var watches = datastore.getTable('watches');
 
 	return watches.query();
 }
 
 function getWatch(id) {
+	var watches = getWatches();
+
 	return watches.get(id);
 }
 
 function createWatch() {
-	var watch = null,
+	var watches = getWatches(),
+		watch = null,
 		watchId = null,
 		watchName = window.prompt('Please enter a name for this watch:'),
 		tracking = options.getOption('trackImmediately'),
@@ -90,10 +92,10 @@ function appendWatch(id, watch) {
 }
 
 function appendWatches() {
-	getWatches();
+	var watches = getWatches();
 
-	if (watches.query().length > 0) {
-		watches.query().forEach(function(watch) {
+	if (watches.length > 0) {
+		watches.forEach(function(watch) {
 			var watchId = watch.getId(),
 				watchToAppend = {
 					name: watch.get('name'),
