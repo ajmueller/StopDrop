@@ -36,6 +36,10 @@ $(function() {
 			time.resetTime(id);
 		});
 
+		$('.reset-all').click(function() {
+			time.resetAll();
+		});
+
 		$(document).on('click', '.add', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 

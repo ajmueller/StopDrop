@@ -109,10 +109,10 @@ function startTime(id) {
 }
 
 // Resets the time for a watch
-function resetTime(id) {
+function resetTime(id, confirm) {
 	var watch = watches.getWatch(id);
 
-	if (window.confirm('Are you sure you want to reset this watch?')) {
+	function resetWatch() {
 		pauseTime(id);
 
 		watch
@@ -120,6 +120,26 @@ function resetTime(id) {
 			.set('sessionEnd', 0)
 			.set('sessionTime', 0)
 			.set('totalTime', 0);
+	}
+
+	if (confirm) {
+		resetWatch();
+	}
+	else if (window.confirm('Are you sure you want to reset this watch?')) {
+		resetWatch();
+	}
+}
+
+// Resets the time for all watches
+function resetAll(id) {
+	var allWatches = watches.getWatches();
+
+	if (confirm('Are you sure you want to reset all watches?')) {
+		allWatches.forEach(function(watch) {
+			var id = watch.getId();
+
+			resetTime(id, true);
+		});
 	}
 }
 
@@ -156,4 +176,5 @@ exports.calcTotalTime = calcTotalTime;
 exports.pauseTime = pauseTime;
 exports.startTime = startTime;
 exports.resetTime = resetTime;
+exports.resetAll = resetAll;
 exports.adjustTime = adjustTime;
