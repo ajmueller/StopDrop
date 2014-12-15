@@ -150,8 +150,6 @@ function appendWatch(id, watch) {
 
 	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="name">' + watch.name + '</span><span class="time">' + status + '</span></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colors + '</li>';
 	$('.watches').append(html);
-
-	console.log('Watch with ID ' + id + ' added to UI');
 }
 
 function appendWatches() {

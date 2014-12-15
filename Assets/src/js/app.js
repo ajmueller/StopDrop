@@ -1,7 +1,10 @@
+// dependencies
 require('./vendor/jquery.min.js');
-require('./vendor/jquery.ui-custom.min.js');
+// require('./vendor/jquery.ui-custom.min.js');
 require('./vendor/jquery.ui-touch-punch.min.js');
 require('./vendor/jquery.mobile-events.min.js');
+
+// modules
 var dataLayer = require('./modules/dataLayer.js'),
 	options = require('./modules/options.js'),
 	watches = require('./modules/watches.js'),
@@ -12,16 +15,16 @@ $(function() {
 	// binds all clicks and change events to UI elements
 	function bindInteractions() {
 		// ----- SORTING ------
-		$('.watches').sortable({
-			axis : 'y',
-			handle : 'span.handle',
-			placeholder : 'placeholder',
-			update : function() {
-				var results = $(this).sortable('toArray');
+		// $('.watches').sortable({
+		// 	axis : 'y',
+		// 	handle : 'span.handle',
+		// 	placeholder : 'placeholder',
+		// 	update : function() {
+		// 		var results = $(this).sortable('toArray');
 
-				watches.updateOrder(results);
-			}
-		});
+		// 		watches.updateOrder(results);
+		// 	}
+		// });
 
 		// ----- CONTROLS ------
 		$(document).on('doubletap', '.stopwatch', function(e) {
