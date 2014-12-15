@@ -122,7 +122,7 @@ function resetTime(id) {
 	}
 }
 
-// Adds 15 minutes for a watch
+// Adds 15 minutes to a watch
 function addTime(id) {
 	var watch = watches.getWatch(id),
 		timeToAdd = 15 * 60 * 1000,
@@ -135,6 +135,24 @@ function addTime(id) {
 	watch
 		.set('totalTime', watch.get('totalTime') + timeToAdd)
 		.set('tracking', false);
+}
+
+// Subtracts 15 minutes from a watch
+function subtractTime(id) {
+	var watch = watches.getWatch(id),
+		totalTime = watch.get('totalTime'),
+		timeToSubtract = 15 * 60 * 1000,
+		$watch = $('#' + id);
+
+	if ($watch.is('.tracking')) {
+		pauseTime(id);
+	}
+
+	if (totalTime >= timeToSubtract) {
+		watch
+			.set('totalTime', watch.get('totalTime') - timeToSubtract)
+			.set('tracking', false);
+	}
 }
 
 function padZeroes(number) {
@@ -152,3 +170,4 @@ exports.pauseTime = pauseTime;
 exports.startTime = startTime;
 exports.resetTime = resetTime;
 exports.addTime = addTime;
+exports.subtractTime = subtractTime;

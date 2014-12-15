@@ -42,6 +42,12 @@ $(function() {
 			time.addTime(id);
 		});
 
+		$(document).on('click', '.subtract', function() {
+			var id = $(this).parents('.stopwatch').attr('id');
+
+			time.subtractTime(id);
+		});
+
 		$(document).on('click', '.colors div', function() {
 			var $this = $(this),
 				id = $this.parents('.stopwatch').attr('id'),
