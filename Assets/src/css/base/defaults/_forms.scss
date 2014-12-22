@@ -1,0 +1,26 @@
+input[type="text"] {
+	border: 1px solid $colorGreyMedium;
+	font: 100%/1.5 "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-weight: 200;
+}
+
+button,
+input[type="submit"] {
+	background: white;
+	border: 1px solid $colorGreyMedium;
+	cursor: pointer;
+	font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+	font-size: 1em;
+	font-weight: 200;
+	margin-right: 0.75em;
+	padding: 0.5em;
+
+	&:hover {
+		background: #f7f7f7;
+	}
+
+	&:active,
+	&:focus {
+		background: $colorGreyLight;
+	}
+}

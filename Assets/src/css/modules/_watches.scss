@@ -1,0 +1,84 @@
+.handle {
+	cursor: move;
+	display: inline-block;
+	font-size: 1.3333em;
+	height: 24px;
+	line-height: 24px;
+	margin-right: 0.5em;
+	vertical-align: middle;
+}
+
+// the placeholder while dragging/dropping a watch
+.placeholder {
+	background: $colorGreyLight;
+	border: 1px dashed black;
+	height: 5em;
+}
+.ui-sortable-helper {
+	opacity: 0.4;
+}
+
+.name {
+	font-weight: 300;
+	vertical-align: middle;
+}
+
+.stopwatch {
+	display: inline-block;
+	font-size: 1.5em;
+	line-height: 1.5em;
+	min-height: 5em;
+	padding: 1em;
+	vertical-align: middle;
+	width: 100%;
+
+	&.collapsed {
+		min-height: 0;
+		padding: 0.5em 1em;
+
+		.color-selector,
+		.colors,
+		.controls > :not(.start):not(.pause),
+		.time {
+			display: none !important;
+		}
+
+		.controls {
+			width: 15%;
+
+			button {
+				float: right;
+				margin: 0;
+			}
+		}
+
+		.properties {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			width: 75%;
+		}
+	}
+
+	.properties {
+		float: left;
+		width: 60%;
+
+		@include respond(breakpointSmall) {
+			width: 50%;
+		}
+	}
+}
+
+.time {
+	display: block;
+}
+
+.tracking {
+	animation: pulse 2s infinite linear;
+
+	.add,
+	.subtract {
+		display: none;
+	}
+}

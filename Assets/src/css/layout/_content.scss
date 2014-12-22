@@ -1,0 +1,23 @@
+// @category layout
+
+// @function content
+// The location to define major column layouts for your main content area.
+#welcome {
+	color: black;
+	margin: 0 auto;
+	padding: 1em;
+	text-align: center;
+}
+
+#container {
+	display: none;		// will be shown with JavaScript once the user has been validated
+	height: 100%;
+	overflow-y: auto;
+	-webkit-overflow-scrolling: touch;
+	position: relative;		// context for #mask
+	width: 100%;
+}
+
+.name-input {
+	width: 70%;
+}
