@@ -49,3 +49,8 @@ h4 {
 ::selection {
 	background-color: transparent;
 }
+
+input::selection {
+	background-color: black;
+	color: white;
+}

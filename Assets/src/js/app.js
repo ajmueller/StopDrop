@@ -40,7 +40,7 @@ $(function() {
 				name = $this.text();
 
 			$this.replaceWith('<input type="text" class="name-input" value="' + name + '" />');
-			$('.name-input').focus();
+			$('.name-input').select();
 		});
 
 		$(document).on('blur', '.name-input', function() {
