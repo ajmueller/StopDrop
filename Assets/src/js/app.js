@@ -27,12 +27,24 @@ $(function() {
 		// });
 
 		// ----- CONTROLS ------
-		$(document).on('doubletap', '.stopwatch', function(e) {
-			var id = ($(e.target).is('.stopwatch')) ? $(e.target).attr('id') : $(e.target).parents('.stopwatch').attr('id');
+		$(document).on('doubletap', function(e) {
+			var $target = $(e.target),
+				id = null;
 
 			e.preventDefault();
 
-			watches.toggleCollapsed(id);
+			// check the element type the user double tapped
+			if ($target.hasClass('stopwatch')) {
+				id = $target.attr('id');
+			}
+			else if ($target.hasClass('properties') || $target.hasClass('controls')) {
+				id = $target.parents('.stopwatch').attr('id');
+			}
+
+			// only toggle the status of a proper area is clicked
+			if (id) {
+				watches.toggleCollapsed(id);
+			}
 		});
 
 		$(document).on('click', '.name', function() {
