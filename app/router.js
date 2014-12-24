@@ -5,6 +5,11 @@ var Router = Ember.Router.extend({
 });
 
 Router.map(function() {
+
+	this.resource('timers', {
+		path: '/'
+	});
+
 });
 
 export default Router;

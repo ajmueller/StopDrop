@@ -1,0 +1,16 @@
+TIMERS:
+
+    {{#each timer in model}}
+        <li>
+			{{timer-block 
+				
+				title=timer.title 
+				totalTime=timer.totalTime
+				start="startTimerInstance"
+				stop="stopTimerInstance"
+				timer=timer
+				active=timer.active
+
+			}}
+        </li>
+    {{/each}}
