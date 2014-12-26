@@ -5,6 +5,7 @@ export default Ember.Component.extend({
 
 	active: null,
 	totalTime: null,
+	notes: null,
     
     status: function() {
         return this.get('active') ? 'ON' : 'OFF';

@@ -6,6 +6,7 @@ var Timer = DS.Model.extend({
     startTime: DS.attr('int', {defaultValue: 0}),
     totalTime: DS.attr('int', {defaultValue: 0}),
     active: DS.attr('boolean', {defaultValue: false}),
+    notes: DS.attr('string', {defaultValue: ''}),
 
     start: function() {
 
@@ -42,14 +43,17 @@ Timer.reopenClass({
         {
         	id: 1,
             title: "Making money rain",
+            notes: "TESTING THESE NOTES"
         },
         {
         	id: 2,
             title: "Running till I die",
+            notes: "TESTING THESE NOTES AGAIN"
         },
         {
         	id: 3,
             title: "Solve world hunger (with Ember)",
+            notes: "TESTING THESE NOTES AGAIN AGAIN"
         }
     ]
 });
