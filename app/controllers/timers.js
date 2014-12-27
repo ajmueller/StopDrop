@@ -1,28 +1,20 @@
 import Ember from 'ember';
+import itemController from '../controllers/item';
 
 export default Ember.ArrayController.extend({
 
 	currentTimers: Ember.A(),
+	itemController: 'item',
 
 	actions: {
 
-		startTimerInstance: function(timer) {
-			
-			timer.start();
+		createNewTimerInstance: function() {
 
-			if (!this.currentTimers.contains(timer)) {
-				this.currentTimers.addObject(timer);
-			}
-			
-		},
-
-		stopTimerInstance: function(timer) {
-			
-			timer.stop();
-
-			if (this.currentTimers.contains(timer)) {
-				this.currentTimers.removeObject(timer);
-			}
+			this.store
+				.createRecord('timer', {
+					title: 'New timer'
+				})
+				.save();
 		}
 
 	}

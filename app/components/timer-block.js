@@ -23,6 +23,10 @@ export default Ember.Component.extend({
 
 		stop: function() {
 			this.sendAction('stop', this.get('timer'));
+		},
+
+		delete: function() {
+			this.sendAction('delete', this.get('timer'));
 		}
 
 	}

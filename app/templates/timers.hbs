@@ -1,6 +1,10 @@
 TIMERS:
 
-    {{#each timer in model}}
+	<div class="global-controls">
+		<button class="create-timer" {{action "createNewTimerInstance"}}>Create new timer</button>
+	</div>
+
+    {{#each timer in model itemController='item'}}
         <li>
 			{{timer-block 
 				
@@ -8,7 +12,7 @@ TIMERS:
 				totalTime=timer.totalTime
 				start="startTimerInstance"
 				stop="stopTimerInstance"
-				timer=timer
+				delete="deleteTimerInstance"
 				notes=timer.notes
 				active=timer.active
 
