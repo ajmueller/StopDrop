@@ -14,7 +14,9 @@ var Timer = DS.Model.extend({
             return;
         }
 
-    	this.startTime = Date.now();
+        this.set('startTime', Date.now());
+
+        console.log(typeof this.get('startTime'));
         this.set('active', true);
     },
 
@@ -24,7 +26,7 @@ var Timer = DS.Model.extend({
             return;
         }
 
-    	var sessionTime = Date.now() - this.startTime;
+    	var sessionTime = Date.now() - this.get('startTime');
         this.set('totalTime', this.get('totalTime') + sessionTime);
 
         this.set('active', false);

@@ -20,6 +20,8 @@ export default Ember.ObjectController.extend(AutoSaving, {
 			if (!this.get('parentController.currentTimers').contains(timer)) {
 				this.get('parentController.currentTimers').addObject(timer);
 			}
+
+			timer.save();
 			
 		},
 
@@ -32,6 +34,8 @@ export default Ember.ObjectController.extend(AutoSaving, {
 			if (this.get('parentController.currentTimers').contains(timer)) {
 				this.get('parentController.currentTimers').removeObject(timer);
 			}
+
+			timer.save();
 		},
 
 		deleteTimerInstance: function() {
@@ -40,6 +44,8 @@ export default Ember.ObjectController.extend(AutoSaving, {
 
 			console.log('deleting');
 			timer.destroyRecord();
+
+			timer.save();
 		},
   	}
 });

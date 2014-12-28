@@ -1,5 +1,4 @@
 import Ember from 'ember';
-import itemController from '../controllers/item';
 
 export default Ember.ArrayController.extend({
 
