@@ -1,6 +1,10 @@
 import DS from 'ember-data';
 import Ember from 'ember';
+import someController from '../controllers/item';
 // import Dropbox from 'vendor/dropbox-datastore/dropbox-datastore';
+
+
+var globalStore;
 
 // DropboxDataStoreAdapter
 // Usage example:
@@ -62,9 +66,8 @@ function DropboxDataStoreAdapter(key, App) {
                 for (var dbTableName in dbRecords) {
                     dbRecords[dbTableName].forEach(function(dbRecord) {
                         var modelName = Ember.Inflector.inflector.singularize(dbTableName);
-                        // http://stackoverflow.com/a/19406357/338986
-                        var store = App.__container__.lookup('store:main');
-                        store.find(modelName, dbRecord.getId()).then(function(record) {
+
+                        globalStore.find(modelName, dbRecord.getId()).then(function(record) {
                             if (record) {
                                 if (dbRecord.isDeleted()) {
                                     // delete
@@ -115,6 +118,9 @@ function DropboxDataStoreAdapter(key, App) {
     // Dropbox DataStore API Ember.js Data Adapter
     var adapter = DS.Adapter.extend({
         find: function(store, type, id) {
+
+            globalStore = globalStore || store;
+
             return getTable(type).then(function(dbTable) {
                 var dbRecord = dbTable.get(id);
                 var value = emberRecord(type, dbRecord, store);
@@ -124,6 +130,9 @@ function DropboxDataStoreAdapter(key, App) {
             });
         },
         findAll: function(store, type, since) {
+            
+            globalStore = globalStore || store;
+            
             return getTable(type).then(function(dbTable) {
                 var values = Ember.$.map(dbTable.query(), function(dbRecord) {
                     return emberRecord(type, dbRecord, store);
@@ -134,6 +143,9 @@ function DropboxDataStoreAdapter(key, App) {
             });
         },
         findQuery: function(store, type, query, recordArray) {
+            
+            globalStore = globalStore || store;
+            
             return getTable(type).then(function(dbTable) {
                 var model = App.get(type.typeKey.capitalize());
                 var dbQuery = typeof(model.dbQuery) == "function" ? model.dbQuery(query) : query;
@@ -146,6 +158,9 @@ function DropboxDataStoreAdapter(key, App) {
             });
         },
         createRecord: function(store, type, record) {
+            
+            globalStore = globalStore || store;
+            
             return getTable(type).then(function(dbTable) {
                 var value = record.toJSON();
                 var dbFields = Ember.$.extend(value, value['noAttrs']);
@@ -158,6 +173,9 @@ function DropboxDataStoreAdapter(key, App) {
             });
         },
         updateRecord: function(store, type, record) {
+            
+            globalStore = globalStore || store;
+            
             return getTable(type).then(function(dbTable) {
                 var dbRecord = dbTable.get(record.id);
                 var emberFields = record.toJSON();
@@ -173,6 +191,9 @@ function DropboxDataStoreAdapter(key, App) {
             });
         },
         deleteRecord: function(store, type, record) {
+            
+            globalStore = globalStore || store;
+            
             return getTable(type).then(function(dbTable) {
                 var dbRecord = dbTable.get(record.id);
                 dbRecord.deleteRecord();
@@ -194,8 +215,7 @@ DropboxDataStoreAdapter.Model = DS.Model.extend({
 
 var adapter = new DropboxDataStoreAdapter('u5gbugvcvmxlrkq', Ember.Application);
 
-export
-default adapter;
+export default adapter;
 
 // export default DropboxDataStoreAdapter;
 // export default DS.FixtureAdapter.extend({});
