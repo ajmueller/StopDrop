@@ -28,6 +28,10 @@ export default Ember.Component.extend({
 			this.get('parentView').set('editMode', false);
 		},
 
+		insertNewline: function(event){
+			this.$().focusout();
+		},
+
 		classNames: ['timertitle-input'],
 		valueBinding: 'parentView.title',
 		

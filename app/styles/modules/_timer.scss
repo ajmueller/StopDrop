@@ -1,0 +1,265 @@
+/*
+	css animation: blink
+	needs to be at root, libsass doesn't support @at-root
+	otherwise that kept things organized
+*/
+@-webkit-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0.2;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+@-moz-keyframes blink {
+    0% {
+        opacity:1;
+    }
+    50% {
+        opacity:0;
+    }
+    100% {
+        opacity:1;
+    }
+}
+
+
+.timer-container {
+	list-style: none;
+}
+
+.timer {
+
+	border: 1px solid teal;
+	border-radius: 10px;
+	margin: 2em 0;
+	overflow: hidden;
+	position: relative;
+
+	.show-on-expand {
+		display: none;
+	}
+
+	&.expanded .show-on-expand{
+		display: block;
+	}
+
+	/*
+		live timer indicator
+	*/
+
+	.live {
+
+		position: absolute;
+		color: #00ff00;
+		font-size: 1.5em;
+		right: 1em;
+		top: 1em;
+
+		-webkit-transition: all 1s ease-in-out;
+		    -moz-transition: all 1s ease-in-out;
+		    -o-transition: all 1s ease-in-out;
+		    -ms-transition: all 1s ease-in-out;
+		    transition: all 1s ease-in-out;
+		    
+		    -webkit-animation-direction: normal;
+		    -webkit-animation-duration: 2s;
+		    -webkit-animation-iteration-count: infinite;
+		    -webkit-animation-name: blink;
+		    -webkit-animation-timing-function: ease-in-out;
+		    
+		-moz-animation-direction: normal;
+		    -moz-animation-duration: 2s;
+		    -moz-animation-iteration-count: infinite;
+		    -moz-animation-name: blink;
+		    -moz-animation-timing-function: ease-in-out;    
+
+	}
+
+	/*
+		timer properties
+	*/
+	.timer-properties {
+		padding-top: 1.5em;
+	}
+
+	.timer-property {
+
+		color: teal;
+		text-align: center;
+
+		&.title {
+			margin: 0;
+			
+			input {
+				
+				color: teal;
+				font-family: $roboto;
+				font-size: 1em;
+				font-weight: bold;
+				text-align: center;
+			}
+		}
+
+		&.total-time {
+			font-size: 1.5em;
+			font-weight: 100;
+		}
+	}
+
+	/*
+		timer controls
+	*/
+
+	.timer-controls {
+
+		background-color: teal;
+		text-align: center;
+		margin-top: 1.5em;
+		padding: 1.5em 0;
+		position: relative;
+
+		.timer-control {
+			
+			margin-right: 1.5em;
+
+			&:last-child {
+				margin-right: 0;
+			}
+		}
+	}
+
+	.timer-controls-group {
+		
+		margin-top: 1em;
+
+		&.first {
+			margin-top: 0;
+		}
+	}
+
+
+	.timer-control {
+
+		height: 50px;
+		width: 50px;
+		padding: 0;
+		background: #fff;
+		color: teal;
+		text-align: center;
+		border: 2px solid teal;
+		border-radius: 100%;
+		vertical-align: middle;
+
+		i {
+			vertical-align: baseline;
+			font-size: 2.5em;
+		}
+
+		&.timer-start-stop {
+			i.stop {
+				font-size: 1.5em;
+			}
+		}
+
+		&.timer-delete {
+			i {
+				font-size: 2em;
+			}
+		}
+	}
+
+	/*
+		timer themes, global
+	*/
+	.timer-themes {
+		background-color: #fff;
+		border-radius: 20px;
+		display: inline-block;
+		padding: 0 0.5em;
+		margin: 0 1em;
+	}
+
+	.theme-option-view-wrapper {
+		display: inline-block;
+		font-size: 2em;
+		margin-right: 0.35em;
+
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+
+	/*
+		expander toggle
+	*/
+	.expander {
+
+		height: 100%;
+		position: absolute;
+		top: 0;
+			
+		&:before {
+			content: '';
+			display: inline-block;
+			vertical-align: middle;
+			height: 100%;
+		}
+
+		i {
+			color: #fff;
+			padding: 1em 0.5em;
+			font-size: 2em;
+			vertical-align: middle;
+		}
+	}
+}
+
+/*
+	timer themes, instance specific
+*/
+@each $theme, $colors in $themes {
+	
+	$primary: map-get($colors, 'primary');
+
+	// Colorize .timer itself
+	.timer.#{$theme} {
+
+		border: 1px solid $primary;
+
+		.timer-property {
+
+			color: $primary;
+
+			&.title {
+				
+				input {
+					
+					color: $primary;
+				}
+			}
+		}
+
+		.timer-controls {
+
+			background-color: $primary;
+		}
+
+		.timer-control {
+
+			color: $primary;
+			border: 2px solid $primary;
+		}
+	}
+
+	// Color theme options
+	.theme-option.#{$theme} {
+		color: $primary;
+	}
+}
+
+

@@ -6,6 +6,19 @@ export default Ember.Component.extend({
 	active: null,
 	totalTime: null,
 	notes: null,
+	currentTheme: null,
+    expanded: false,
+
+	timerClassWithTheme: function(){
+		return [ "timer",
+                 this.get('currentTheme'),
+                 (this.get('expanded') ? 'expanded' : '')
+                ].join(' ');
+	}.property('currentTheme', 'expanded'),
+
+	themeOptions: function(){
+		return helper.getThemeOptions();
+	}.property(),
     
     status: function() {
         return this.get('active') ? 'ON' : 'OFF';
@@ -15,19 +28,50 @@ export default Ember.Component.extend({
     	return helper.convertMsToHHMMSS(this.get('totalTime'));
     }.property('totalTime'),
 
+    themeOptionView: Ember.View.extend({
+
+    	classNames: "theme-option-view-wrapper",
+    	click: function(){
+    		this.get('parentView').sendAction('changeTheme', this.get('theme'));
+    	},
+    	theme: null,
+    	template: Ember.Handlebars.compile('<div class="theme-option {{theme}}"><i class="fa fa-dot-circle-o"></i></div>'),
+    	isVisible: function() {
+    		if (this.get('parentView.currentTheme') == this.get('theme')) {
+    			return false;
+    		}
+
+    		return true;
+    	}.property('parentView.currentTheme')
+
+    }),
+
 	actions: {
 
-		start: function() {
-			this.sendAction('start', this.get('timer'));
+		toggleStartStop: function() {
+			var action = this.get('active') ? 'stop' : 'start';
+			this.sendAction(action);
 		},
 
-		stop: function() {
-			this.sendAction('stop', this.get('timer'));
-		},
+        fastforward: function() {
+            this.sendAction('fastforward');
+        },
+
+        rewind: function() {
+            this.sendAction('rewind');
+        },
 
 		delete: function() {
-			this.sendAction('delete', this.get('timer'));
-		}
+			this.sendAction('delete');
+		},
+
+        toggleExpander: function() {
+            this.set('expanded', !this.get('expanded'));
+        },
+
+        reset: function() {
+            this.sendAction('reset');
+        }
 
 	}
 

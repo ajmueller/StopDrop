@@ -1,32 +1,64 @@
-<div class="timer">
+<div {{bind-attr class="timerClassWithTheme"}}>
 	
-	<div class="timer-data">
-		<div class="title">
-			<span class="label">Title:</span>
+	{{#if active}}
+		<dive class="live"><i class="fa fa-dot-circle-o"></i></dive>
+	{{/if}}
+
+	<div class="timer-properties">
+
+		<h1 class="title timer-property">
 			<span class="value">
-				{{timertitle-input
-					title=title
-				}}
+				{{timertitle-input title=title}}
 			</span>
-		</div>
-		<div class="total">
-			<span class="label">Total:</span>
+		</h1>
+
+		<div class="total-time timer-property">
 			<span class="value">{{formattedTime}}</span>
 		</div>
-		<div class="status">
-			<span class="label">Status:</span>
-			<span class="value">{{status}}</span>
-		</div>
+
 	</div>
 	
 	<div class="timer-controls">
-		<button class="timer-start" {{action "start"}}>Start</button>	
-		<button class="timer-stop" {{action "stop"}}>Stop</button>
-		<button class="timer-delete" {{action "delete"}}>Delete</button>
+
+		<div class="expander" {{action toggleExpander}}>
+			{{#if expanded}}
+				<i class="stop fa fa-angle-up"></i>
+			{{else}}
+				<i class="start fa fa-angle-down"></i>
+			{{/if}}
+		</div>
+
+		<div class="timer-controls-group first">
+			<button class="timer-rewind timer-control" {{action "rewind"}}><i class="fa fa-angle-double-left"></i></button>
+			<button class="timer-start-stop timer-control" {{action "toggleStartStop"}}>
+				{{#if active}}
+					<i class="stop fa fa-square"></i>
+				{{else}}
+					<i class="start fa fa-angle-right"></i>
+				{{/if}}
+			</button>
+			<button class="timer-fastforward timer-control" {{action "fastforward"}}><i class="fa fa-angle-double-right"></i></button>
+		</div>
+
+		<div class="timer-controls-group show-on-expand">
+			<button class="timer-delete timer-control" {{action "delete"}}><i class="fa fa-trash-o"></i></button>
+			<button class="timer-color timer-control" {{action "reset"}}><i class="fa fa-undo"></i></button>
+			{{!-- <button class="timer-color timer-control" {{action "showColor"}}><i class="fa fa-tint"></i></button> --}}
+		</div>
+
+		<div class="timer-controls-group show-on-expand">
+			<div class="timer-themes">
+				{{#each theme in themeOptions}}
+					{{view themeOptionView themeBinding='theme'}}
+				{{/each}}
+			</div>
+		</div>
+
 	</div>
 
-	<div class="notes">
+
+{{!-- 	<div class="notes">
 		{{markdown-it notes}}
-	</div>
+	</div> --}}
 	
 </div>

@@ -1,10 +1,8 @@
 import Ember from 'ember';
 import AutoSaving from '../mixins/AutoSaving';
 
-console.log(AutoSaving);
-
 export default Ember.ObjectController.extend(AutoSaving, {
-	
+
 	// leverage the AutoSaving mixin
 	bufferedFields: ['title', 'notes'],
   	instaSaveFields: ['active', 'totalTime', 'startTime'],
@@ -38,14 +36,41 @@ export default Ember.ObjectController.extend(AutoSaving, {
 			timer.save();
 		},
 
+		fastforwardTimerInstance: function() {
+
+			var timer = this.get('model');
+			timer.fastforward();
+
+			timer.save();
+		},
+
+		rewindTimerInstance: function() {
+			var timer = this.get('model');
+			timer.rewind();
+
+			timer.save();
+		},
+
 		deleteTimerInstance: function() {
 
 			var timer = this.get('model');
 
-			console.log('deleting');
 			timer.destroyRecord();
 
 			timer.save();
 		},
+
+		changeTimerInstanceTheme: function(theme) {
+
+			var timer = this.get('model');
+			timer.set('theme', theme).save();
+		},
+
+		resetTimerInstance: function() {
+
+			var timer = this.get('model');
+			timer.resetToNow();
+			timer.save();
+		}
   	}
 });

@@ -1,21 +1,24 @@
-TIMERS:
+<div class="global-controls">
+	<button class="create-timer" {{action "createNewTimerInstance"}}><i class="fa fa-plus-square-o"></i></button>
+</div>
 
-	<div class="global-controls">
-		<button class="create-timer" {{action "createNewTimerInstance"}}>Create new timer</button>
-	</div>
+{{#each timer in model itemController='item'}}
+    <li class="timer-container">
+		{{timer-block 
+			
+			title=timer.title 
+			totalTime=timer.totalTime
+			currentTheme=timer.theme
+			start="startTimerInstance"
+			stop="stopTimerInstance"
+			delete="deleteTimerInstance"
+			changeTheme="changeTimerInstanceTheme"
+			fastforward="fastforwardTimerInstance"
+			rewind="rewindTimerInstance"
+			reset="resetTimerInstance"
+			notes=timer.notes
+			active=timer.active
 
-    {{#each timer in model itemController='item'}}
-        <li>
-			{{timer-block 
-				
-				title=timer.title 
-				totalTime=timer.totalTime
-				start="startTimerInstance"
-				stop="stopTimerInstance"
-				delete="deleteTimerInstance"
-				notes=timer.notes
-				active=timer.active
-
-			}}
-        </li>
-    {{/each}}
+		}}
+    </li>
+{{/each}}

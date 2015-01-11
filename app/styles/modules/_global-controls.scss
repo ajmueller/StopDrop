@@ -1,0 +1,22 @@
+.global-controls {
+	
+	&:after {
+		clear: both;
+		content: '';
+		display: block;
+	}
+
+	.create-timer {
+
+		border: none;
+		font-size: 3em;
+		float: right;
+		padding: 0;
+		color: darken(silver, 20%);
+		background-color: transparent;
+
+		&:hover {
+			color: silver;
+		}
+	}
+}

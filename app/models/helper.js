@@ -2,7 +2,7 @@ import Ember from 'ember';
 
 export default Ember.Object.create({
 
-	convertMsToHHMMSS: function(ms){
+	convertMsToHHMMSS: function(ms) {
 
 		var sec_num = parseInt((ms/1000), 10);
 	    var hours   = Math.floor(sec_num / 3600);
@@ -15,6 +15,20 @@ export default Ember.Object.create({
 	    var time    = hours+':'+minutes+':'+seconds;
 	    return time;
 
+	},
+
+	getThemeOptions: function() {
+	
+		return Ember.A([
+			"red",
+			"dark-orange",
+			"light-orange",
+			"green",
+			"teal",
+			"blue",
+			"pink",
+			"brown"
+		]);
 	}
 
 });
