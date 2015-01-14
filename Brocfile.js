@@ -18,6 +18,7 @@ var app = new EmberApp();
 // along with the exports of each module as its value.
 
 app.import('vendor/marked/lib/marked.js');
+app.import('vendor/Sortable/Sortable.js');
 app.import('vendor/dropbox-datastore/dropbox-datastores.js');
 
 module.exports = app.toTree();
