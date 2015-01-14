@@ -45,15 +45,16 @@ var Timer = DS.Model.extend({
         this.set('totalTime', newTotalTime);
     },
 
-    resetStartTime: function() {
-        this.set('startTime', 0);
-    },
-
     resetToNow: function() {
 
-        this.resetStartTime();
-        this.set('totalTime', 0);
+        if (this.get('active')) {
+            console.log('Setting to now');
+            this.set('startTime', Date.now());
+        } else {
+            this.set('startTime', 0);
+        }
 
+        this.set('totalTime', 0);
     },
 
     setThemeOption: function(theme) {
