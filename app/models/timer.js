@@ -13,7 +13,7 @@ var Timer = DS.Model.extend({
 
     start: function() {
 
-        if (this.get('startTime')) {
+        if (this.get('active')) {
             return;
         }
 
