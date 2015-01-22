@@ -1,7 +1,7 @@
 <div class="global-controls">
 	<button class="create-timer" {{action "createNewTimerInstance"}}><i class="fa fa-plus-square-o"></i></button>
 </div>
-
+<ul class="timers">
 {{#each timer in model itemController='item'}}
     <li class="timer-container">
 		{{timer-block 
@@ -22,3 +22,4 @@
 		}}
     </li>
 {{/each}}
+</ul>
