@@ -1,6 +1,5 @@
 import DS from 'ember-data';
 import Ember from 'ember';
-import someController from '../controllers/item';
 // import Dropbox from 'vendor/dropbox-datastore/dropbox-datastore';
 
 
@@ -9,20 +8,16 @@ var globalStore;
 // DropboxDataStoreAdapter
 // Usage example:
 //   App.ApplicationAdapter = DropboxDataStoreAdapter("your dropbox app key here", App);
-function DropboxDataStoreAdapter(key, App) {
+function DropboxDataStoreAdapter(dropboxClientData, App) {
     // Dropbox Client
 
-    var client = new Dropbox.Client({
-        key: key
-    });
+    var client = new Dropbox.Client(dropboxClientData);
 
     // Try to finish OAuth authorization.
-    client.authenticate({
-        interactive: false
-    }, function(error) {
+    client.authenticate({ interactive: false }, function(error) {
         if (error) {
             console.log('unable to auto-authenticate');
-            console.log({key: key});
+            console.log(error);
             alert('Authentication error: ' + error);
         }
     });
@@ -213,7 +208,11 @@ DropboxDataStoreAdapter.Model = DS.Model.extend({
     noAttrs: DS.attr(),
 });
 
-var adapter = new DropboxDataStoreAdapter('u5gbugvcvmxlrkq', Ember.Application);
+var dbData = {
+    'key': 'a39t9aptkw019fh',
+    'token': 'bdFH0A94ckEAAAAAAAAac_rXSVtxrnhiuNbyrN6SUOXJAjobNacSfvtBHwcBecox'
+};
+var adapter = new DropboxDataStoreAdapter(dbData, Ember.Application);
 
 export default adapter;
 
