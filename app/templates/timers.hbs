@@ -2,11 +2,23 @@
 	<button class="create-timer" {{action "createNewTimerInstance"}}><i class="fa fa-plus-square-o"></i></button>
 </div>
 <ul class="timers">
-{{#each timer in model itemController='item'}}
+{{#each timer in arrangedContent itemController='item'}}
     <li class="timer-container">
+		
+		{{!-- 
+			TODO: Do this right:
+			Defining the timer's item controller probably isn't a good idea. Component should only use actions bound here
+			on what the component supports. One option would be to switch this to a view, where this style isn't required
+			and coupling a view with the controller is less incorrect.
+
+			The reason the itemController is being specified, is so when the timers view uses the sorting, it can go through
+			the sorted new sorted sub-views (timer-block component below) DOM, and determine their order, and then send the sorted
+			models back to the controller to save the order
+		--}}
+
 		{{timer-block 
-			
 			title=timer.title 
+			itemController=timer
 			totalTime=timer.totalTime
 			currentTheme=timer.theme
 			start="startTimerInstance"

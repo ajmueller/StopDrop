@@ -14,6 +14,11 @@ export default Ember.ArrayController.extend({
 					title: 'New timer'
 				})
 				.save();
+
+		},
+
+		finishedSorting: function(sortedTimerModels) {
+			this.set('arrangedContent', sortedTimerModels);
 		}
 
 	}

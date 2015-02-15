@@ -6,6 +6,12 @@ export default Ember.Component.extend({
 	title: null,
 	editMode: false,
 
+	checkTimerValue: function() {
+		if (this.get('title') == "" && !this.get('editMode')) {
+			this.set('title', 'timer with no name');
+		}
+	}.observes('title'),
+
 	titleSpan: Ember.View.extend({
 		
 		titleBinding: 'parentView.title',
@@ -18,7 +24,7 @@ export default Ember.Component.extend({
 			return (!this.get('parentView.editMode')) ? true : false;
 		}.property('parentView.editMode'),
 
-		template: Ember.Handlebars.compile('<span class="timertitle">{{title}}</span>')
+		template: Ember.Handlebars.compile('<div class="timertitle">{{{title}}}</div>')
 
 	}),
 
@@ -26,6 +32,7 @@ export default Ember.Component.extend({
 
 		focusOut: function(event, view) {
 			this.get('parentView').set('editMode', false);
+			this.get('parentView').checkTimerValue();
 		},
 
 		insertNewline: function(event){
