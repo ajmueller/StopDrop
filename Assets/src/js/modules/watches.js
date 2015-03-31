@@ -139,7 +139,8 @@ function appendWatch(id, watch) {
 	var status,
 		buttons,
 		html,
-		colors = '<div class="colors"><div class="black"></div><div class="red"></div><div class="orange"></div><div class="yellow"></div><div class="green"></div><div class="blue"></div><div class="violet"></div></div>';
+		colors = '<div class="colors"><div class="black"></div><div class="red"></div><div class="orange"></div><div class="yellow"></div><div class="green"></div><div class="blue"></div><div class="violet"></div></div>',
+		note = (watch.note == null) ? '' : watch.note;
 
 	if (watch.tracking) {
 		status = "Tracking...";
@@ -155,7 +156,7 @@ function appendWatch(id, watch) {
 		watch.theme += " collapsed";
 	}
 
-	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="name">' + watch.name + '</span><span class="time">' + status + '</span><textarea class="note">' + watch.note + '</textarea></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colors + '</li>';
+	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="name">' + watch.name + '</span><span class="time">' + status + '</span><textarea class="note" placeholder="Note">' + note + '</textarea></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colors + '</li>';
 	$('.watches').append(html);
 }
 
