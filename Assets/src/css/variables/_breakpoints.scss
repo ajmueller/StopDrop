@@ -7,7 +7,7 @@
 // @param $maxDeviceWidth {Number} The maximum width device width supported.  [px]
 $breakpoints: (
 	breakpointExtraSmall 320px,
-	breakpointSmall 540px
+	breakpointSmall 640px
 );
 $documentWidth: $rowMaxWidth;
 $maxDeviceWidth: 2880px;
