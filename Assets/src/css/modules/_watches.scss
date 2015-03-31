@@ -58,6 +58,10 @@
 			white-space: nowrap;
 			width: 75%;
 		}
+
+		textarea {
+			display: none;
+		}
 	}
 
 	.properties {
@@ -67,6 +71,18 @@
 		@include respond(breakpointSmall) {
 			width: 50%;
 		}
+	}
+
+	textarea {
+		display: block;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 20px;
+		font-weight: 300;
+		margin: 1em 0;
+		max-width: 350px;
+		min-height: 100px;
+		padding: 0.5em;
+		width: 100%;
 	}
 }
 

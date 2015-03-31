@@ -42,7 +42,8 @@ function createWatch() {
 			tracking: tracking,
 			collapsed: false,
 			order: 0,
-			theme: 'blue'
+			theme: 'blue',
+			note: ''
 		});
 	}
 }
@@ -128,6 +129,12 @@ function updateName(id, name) {
 	watch.set('name', name);
 }
 
+function updateNote(id, note) {
+	var watch = getWatch(id);
+
+	watch.set('note', note);
+}
+
 function appendWatch(id, watch) {
 	var status,
 		buttons,
@@ -148,7 +155,7 @@ function appendWatch(id, watch) {
 		watch.theme += " collapsed";
 	}
 
-	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="name">' + watch.name + '</span><span class="time">' + status + '</span></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colors + '</li>';
+	html = '<li class="stopwatch ' + watch.theme + '" id="' + id + '"><div class="properties"><span class="name">' + watch.name + '</span><span class="time">' + status + '</span><textarea class="note">' + watch.note + '</textarea></div><div class="controls">' + buttons + '<button class="delete control"><span></span></button><button class="reset control"><span>000</span></button><button class="add control"><span></span></button><button class="subtract control"><span></span></button></div>' + colors + '</li>';
 	$('.watches').append(html);
 }
 
@@ -163,7 +170,8 @@ function appendWatches() {
 					theme: watch.get('theme'),
 					totalTime: watch.get('totalTime'),
 					tracking: watch.get('tracking'),
-					collapsed: watch.get('collapsed')
+					collapsed: watch.get('collapsed'),
+					note: watch.get('note')
 				};
 
 			appendWatch(watchId, watchToAppend);
@@ -192,7 +200,8 @@ function setWatchesSync() {
 					theme: watch.get('theme'),
 					totalTime: watch.get('totalTime'),
 					tracking: watch.get('tracking'),
-					collapsed: watch.get('collapsed')
+					collapsed: watch.get('collapsed'),
+					note: watch.get('note')
 				};
 
 			appendWatch(watchId, watchToAppend);
@@ -214,4 +223,5 @@ exports.collapseAll = collapseAll;
 exports.toggleCollapsed = toggleCollapsed;
 exports.updateOrder = updateOrder;
 exports.updateName = updateName;
+exports.updateNote = updateNote;
 exports.setWatchesSync = setWatchesSync;

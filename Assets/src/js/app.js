@@ -113,6 +113,12 @@ $(function() {
 			watches.setTheme(id, theme);
 		});
 
+		$(document).on('blur', '.note', function() {
+			var id = $(this).parents('.stopwatch').attr('id');
+
+			watches.updateNote(id, $(this).val());
+		});
+
 
 		// ------ LOGIN -------
 		$('#authenticate').click(function(e) {
