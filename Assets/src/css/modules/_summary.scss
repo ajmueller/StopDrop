@@ -13,3 +13,11 @@ p.total {
 span.total {
 	font-weight: 200;
 }
+
+#chart {
+	display: none;
+
+	@include respond(breakpointSmall) {
+		display: block;
+	}
+}
