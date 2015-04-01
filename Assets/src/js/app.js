@@ -1,8 +1,11 @@
 // dependencies
-require('./vendor/jquery.min.js');
+var jQuery = require('jquery');
+global.jQuery = jQuery;
+global.$ = jQuery;
 // require('./vendor/jquery.ui-custom.min.js');
 // require('./vendor/jquery.ui-touch-punch.min.js');
 require('./vendor/jquery.mobile-events.min.js');
+require('./vendor/highcharts-custom.js');
 
 // modules
 var dataLayer = require('./modules/dataLayer.js'),

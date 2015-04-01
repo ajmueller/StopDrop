@@ -1,5 +1,6 @@
 var options = require('./options.js'),
-	time = require('./time.js');
+	time = require('./time.js'),
+	charts = require('./charts.js');
 
 // retrieves the user's watches from their datastore
 function getWatches() {
@@ -242,6 +243,7 @@ function setWatchesSync() {
 		});
 
 		time.calcTotalTime();
+		charts.drawChart();
 	});
 }
 

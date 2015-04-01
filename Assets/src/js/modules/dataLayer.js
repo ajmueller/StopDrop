@@ -2,7 +2,8 @@ var client = null,
 	datastoreManager = null,
 	appKey = 'vng10ukrxiq1gsk',
 	options = require('./options.js'),
-	watches = require('./watches.js');
+	watches = require('./watches.js'),
+	charts = require('./charts.js');
 
 function authenticateClient() {
 	var clientAuthenticated = false;
@@ -47,6 +48,7 @@ function getDatastoreManager() {
 			// initialize watches
 			watches.appendWatches();
 			watches.setWatchesSync();
+			charts.drawChart();
 		}
 	});
 }
