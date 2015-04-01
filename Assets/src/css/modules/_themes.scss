@@ -16,7 +16,7 @@
 
 // colors are from http://iosdesign.ivomynttinen.com/
 .black {
-	background: #0e0e0e;
+	background: $colorBlack;
 
 	+ .block {
 		border-top: 1px solid white;
@@ -24,7 +24,7 @@
 }
 
 .red {
-	background: #ff3824;
+	background: $colorRed;
 
 	+ .red {
 		border-top: 1px solid white;
@@ -32,7 +32,7 @@
 }
 
 .orange {
-	background: #ff9600;
+	background: $colorOrange;
 	color: #0e0e0e;
 
 	+ .orange {
@@ -41,7 +41,7 @@
 }
 
 .yellow {
-	background: #ffcd00;
+	background: $colorYellow;
 	color: #0e0e0e;
 
 	+ .yellow {
@@ -50,7 +50,7 @@
 }
 
 .green {
-	background: #44db5e;
+	background: $colorGreen;
 
 	+ .green {
 		border-top: 1px solid white;
@@ -58,7 +58,7 @@
 }
 
 .blue {
-	background: #0076ff;
+	background: $colorBlue;
 
 	+ .blue {
 		border-top: 1px solid white;
@@ -66,7 +66,7 @@
 }
 
 .violet {
-	background: #502f79;
+	background: $colorViolet;
 
 	+ .violet {
 		border-top: 1px solid white;
