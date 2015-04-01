@@ -82,7 +82,6 @@ function setTheme(id, theme) {
 	var watch = getWatch(id);
 
 	watch.set('theme', theme);
-	console.log('updated theme for ' + id + ' to ' + theme);
 }
 
 function expandAll() {

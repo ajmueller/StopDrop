@@ -158,8 +158,6 @@ $(function() {
 		$('#trackImmediately').on('change', function() {
 			options.updateOption('trackImmediately', $(this).is(':checked'));
 		});
-
-		console.log('interactions bound');
 	}
 
 	// init

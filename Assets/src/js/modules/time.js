@@ -76,8 +76,6 @@ function pauseTime(id) {
 	$watch.removeClass('tracking');
 	$pause.addClass('hide');
 	$start.removeClass('hide');
-
-	console.log('time paused for ' + id);
 }
 
 // Pauses all watches

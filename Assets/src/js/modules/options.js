@@ -31,8 +31,6 @@ function setOption(name, value) {
 	options.getOrInsert(name, {
 		'value': value
 	});
-
-	console.log('option ' + name + ' set with value of ' + value);
 }
 
 // sets up listener to sync options UI
@@ -61,8 +59,6 @@ function setOptionUI($input, option) {
 	var optionValue = option.get('value');
 
 	$input.prop('checked', optionValue);
-
-	console.log('option ' + option._rid + ' checkbox updated with value of ' + optionValue);
 }
 
 // updates the options checkboxes to match the datastore

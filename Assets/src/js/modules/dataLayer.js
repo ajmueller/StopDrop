@@ -17,7 +17,6 @@ function authenticateClient() {
 
 	if (client.isAuthenticated()) {
 		// Client is authenticated. Display UI.
-		console.log('user authenticated');
 		$('#welcome').remove();
 		$('#container').show();
 		clientAuthenticated = true;
@@ -48,8 +47,6 @@ function getDatastoreManager() {
 			// initialize watches
 			watches.appendWatches();
 			watches.setWatchesSync();
-
-			console.log('datastore set');
 		}
 	});
 }
