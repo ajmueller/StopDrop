@@ -122,41 +122,6 @@ function startTime(id) {
 	$time.text("Tracking...");
 }
 
-// Resets the time for a watch
-function resetTime(id, confirm) {
-	var watch = watches.getWatch(id);
-
-	function resetWatch() {
-		pauseTime(id);
-
-		watch
-			.set('sessionStart', 0)
-			.set('sessionEnd', 0)
-			.set('sessionTime', 0)
-			.set('totalTime', 0);
-	}
-
-	if (confirm) {
-		resetWatch();
-	}
-	else if (window.confirm('Are you sure you want to reset this watch?')) {
-		resetWatch();
-	}
-}
-
-// Resets the time for all watches
-function resetAll(id) {
-	var allWatches = watches.getWatches();
-
-	if (confirm('Are you sure you want to reset all watches?')) {
-		allWatches.forEach(function(watch) {
-			var id = watch.getId();
-
-			resetTime(id, true);
-		});
-	}
-}
-
 // Adds or subtracts 15 minutes from a watch
 function adjustTime(id, adjustment) {
 	var watch = watches.getWatch(id),
@@ -190,6 +155,4 @@ exports.calcTotalTime = calcTotalTime;
 exports.pauseTime = pauseTime;
 exports.pauseAll = pauseAll;
 exports.startTime = startTime;
-exports.resetTime = resetTime;
-exports.resetAll = resetAll;
 exports.adjustTime = adjustTime;

@@ -182,6 +182,40 @@ function appendWatches() {
 	}
 }
 
+function resetWatch(id, confirm) {
+	var watch = getWatch(id);
+
+	function resetWatch() {
+		time.pauseTime(id);
+
+		watch
+			.set('sessionStart', 0)
+			.set('sessionEnd', 0)
+			.set('sessionTime', 0)
+			.set('totalTime', 0)
+			.set('note', '');
+	}
+
+	if (confirm) {
+		resetWatch();
+	}
+	else if (window.confirm('Are you sure you want to reset this watch?')) {
+		resetWatch();
+	}
+}
+
+function resetAll(id) {
+	var allWatches = getWatches();
+
+	if (confirm('Are you sure you want to reset all watches?')) {
+		allWatches.forEach(function(watch) {
+			var id = watch.getId();
+
+			resetWatch(id, true);
+		});
+	}
+}
+
 // Removes a watch from the DOM
 function removeWatch(id) {
 	$('#' + id).remove();
@@ -225,4 +259,6 @@ exports.toggleCollapsed = toggleCollapsed;
 exports.updateOrder = updateOrder;
 exports.updateName = updateName;
 exports.updateNote = updateNote;
+exports.resetWatch = resetWatch;
+exports.resetAll = resetAll;
 exports.setWatchesSync = setWatchesSync;

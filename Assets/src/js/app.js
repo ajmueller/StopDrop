@@ -90,7 +90,7 @@ $(function() {
 		$(document).on('click', '.reset', function() {
 			var id = $(this).parents('.stopwatch').attr('id');
 
-			time.resetTime(id);
+			watches.resetWatch(id);
 		});
 
 		$(document).on('click', '.add', function() {
@@ -136,7 +136,7 @@ $(function() {
 		});
 
 		$('.reset-all').click(function() {
-			time.resetAll();
+			watches.resetAll();
 		});
 
 		$('.pause-all').click(function() {
