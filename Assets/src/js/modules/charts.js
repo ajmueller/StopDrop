@@ -7,15 +7,15 @@ var watches = require('./watches'),
 		green: '#44db5e',
 		blue: '#0076ff',
 		violet: '#502f79'
-	};
+	},
+	windowResize;
 
 function getGraphData() {
 	var graphData = [],
 		allWatches = watches.getWatches();
 
 	allWatches.forEach(function(watch) {
-		var id = watch.getId(),
-			name = watch.get('name'),
+		var name = watch.get('name'),
 			time = watch.get('totalTime'),
 			color = watch.get('theme'),
 			watchData = {
@@ -33,8 +33,8 @@ function getGraphData() {
 }
 
 function drawChart() {
-	$(function () {
-		$('#chart').highcharts({
+	$(function() {
+		$('#chart:visible').highcharts({
 			chart: {
 				backgroundColor: 'transparent',
 				plotBackgroundColor: 'transparent'
@@ -66,5 +66,10 @@ function drawChart() {
 		});
 	});
 }
+
+$(window).on('resize', function() {
+	clearTimeout(windowResize);
+	windowResize = setTimeout(drawChart, 100);
+});
 
 exports.drawChart = drawChart;
