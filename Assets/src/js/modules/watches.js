@@ -232,6 +232,24 @@ function resetAll(id) {
 // sets up listener to sync watches UI
 function setWatchesSync() {
 	datastore.recordsChanged.addListener(function(e) {
+		var watches = getWatches();
+
+		$('.watches').empty();
+
+		watches.forEach(function(watch) {
+			var watchId = watch.getId(),
+				watchToAppend = {
+					name: watch.get('name'),
+					theme: watch.get('theme'),
+					totalTime: watch.get('totalTime'),
+					tracking: watch.get('tracking'),
+					collapsed: watch.get('collapsed'),
+					note: watch.get('note')
+				};
+
+			_appendWatch(watchId, watchToAppend);
+		});
+
 		time.calcTotalTime();
 		charts.drawChart();
 	});
