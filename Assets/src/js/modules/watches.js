@@ -2,6 +2,16 @@ var options = require('./options.js'),
 	time = require('./time.js'),
 	charts = require('./charts.js');
 
+// Removes a watch from the DOM
+function _removeWatch(id) {
+	$('#' + id).remove();
+}
+
+// Resets a watch's note in the UI
+function _resetNoteUI(id) {
+	$('#' + id).find('.note').val('');
+}
+
 // retrieves the user's watches from their datastore
 function getWatches() {
 	var watches = datastore.getTable('watches');
@@ -54,7 +64,7 @@ function deleteWatch(id, confirm) {
 		$('#' + id).hide(500, function() {
 			var watch = getWatch(id);
 
-			removeWatch(id);
+			_removeWatch(id);
 			watch.deleteRecord();
 		});
 	}
@@ -83,6 +93,8 @@ function setTheme(id, theme) {
 	var watch = getWatch(id);
 
 	watch.set('theme', theme);
+
+	$('#' + id).removeClass('black red green blue violet orange yellow').addClass(theme);
 }
 
 function expandAll() {
@@ -135,20 +147,19 @@ function updateNote(id, note) {
 	watch.set('note', note);
 }
 
-function appendWatch(id, watch) {
+function _appendWatch(id, watch) {
 	var status,
 		buttons,
 		html,
 		colors = '<div class="colors"><div class="black"></div><div class="red"></div><div class="orange"></div><div class="yellow"></div><div class="green"></div><div class="blue"></div><div class="violet"></div></div>',
+		buttons = '<button class="start control"><span></span></button><button class="pause control"><span></span></button>',
 		note = (watch.note == null) ? '' : watch.note;
 
 	if (watch.tracking) {
 		status = "Tracking...";
 		watch.theme += " tracking";
-		buttons = '<button class="start hide control"><span></span></button><button class="pause control"><span></span></button>';
 	}
 	else {
-		buttons = '<button class="start control"><span></span></button><button class="pause hide control"><span></span></button>';
 		status = time.calcTime(id, watch.totalTime);
 	}
 
@@ -175,7 +186,7 @@ function appendWatches() {
 					note: watch.get('note')
 				};
 
-			appendWatch(watchId, watchToAppend);
+			_appendWatch(watchId, watchToAppend);
 		});
 
 		time.calcTotalTime();
@@ -185,22 +196,24 @@ function appendWatches() {
 function resetWatch(id, confirm) {
 	var watch = getWatch(id);
 
-	function resetWatch() {
-		time.pauseTime(id);
-
+	function _resetWatch() {
 		watch
 			.set('sessionStart', 0)
 			.set('sessionEnd', 0)
 			.set('sessionTime', 0)
 			.set('totalTime', 0)
-			.set('note', '');
+			.set('note', '')
+			.set('tracking', false);
+
+		_resetNoteUI(id);
+		time.calcTime(id, 0);
 	}
 
 	if (confirm) {
-		resetWatch();
+		_resetWatch();
 	}
 	else if (window.confirm('Are you sure you want to reset this watch?')) {
-		resetWatch();
+		_resetWatch();
 	}
 }
 
@@ -216,32 +229,9 @@ function resetAll(id) {
 	}
 }
 
-// Removes a watch from the DOM
-function removeWatch(id) {
-	$('#' + id).remove();
-}
-
 // sets up listener to sync watches UI
 function setWatchesSync() {
 	datastore.recordsChanged.addListener(function(e) {
-		var watches = getWatches();
-
-		$('.watches').empty();
-
-		watches.forEach(function(watch) {
-			var watchId = watch.getId(),
-				watchToAppend = {
-					name: watch.get('name'),
-					theme: watch.get('theme'),
-					totalTime: watch.get('totalTime'),
-					tracking: watch.get('tracking'),
-					collapsed: watch.get('collapsed'),
-					note: watch.get('note')
-				};
-
-			appendWatch(watchId, watchToAppend);
-		});
-
 		time.calcTotalTime();
 		charts.drawChart();
 	});

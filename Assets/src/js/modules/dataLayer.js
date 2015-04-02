@@ -5,7 +5,7 @@ var client = null,
 	watches = require('./watches.js'),
 	charts = require('./charts.js');
 
-function authenticateClient() {
+function _authenticateClient() {
 	var clientAuthenticated = false;
 
 	client = new Dropbox.Client({key: appKey});
@@ -27,7 +27,7 @@ function authenticateClient() {
 }
 
 function getClient() {
-	authenticateClient();
+	_authenticateClient();
 
 	return client;
 }
@@ -54,5 +54,4 @@ function getDatastoreManager() {
 }
 
 exports.getClient = getClient;
-exports.authenticateClient = authenticateClient;
 exports.getDatastoreManager = getDatastoreManager;
