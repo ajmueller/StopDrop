@@ -1,8 +1,17 @@
 var watches = require('./watches.js'),
 	options = require('./options.js');
 
+function _padZeroes(number) {
+	if (number < 10) {
+		return "0" + number;
+	}
+	else {
+		return number;
+	}
+}
+
 // Calculates the time for a given watch
-function formatTime(time) {
+function _formatTime(time) {
 	var time = Math.floor(time / 1000),		// convert milliseconds to seconds
 		hours = Math.floor(time / 3600),
 		quarters = Math.round((time % 3600) / 900),
@@ -10,13 +19,13 @@ function formatTime(time) {
 		seconds = (time % 3600) % 60,
 		bigTimeHours = hours + (quarters * 0.25),
 		noun = (bigTimeHours === 1) ? 'hour' : 'hours',
-		text = padZeroes(hours) + ":" + padZeroes(minutes) + ":" + padZeroes(seconds) + " (" + bigTimeHours + " " + noun + ")";
+		text = _padZeroes(hours) + ":" + _padZeroes(minutes) + ":" + _padZeroes(seconds) + " (" + bigTimeHours + " " + noun + ")";
 
 	return text;
 }
 
 // Calculates time rounded to 0.25 hours
-function roundTime(time) {
+function _roundTime(time) {
 	var time = Math.floor(time / 1000),		// convert milliseconds to seconds
 		hours = Math.floor(time / 3600),
 		quarters = Math.round((time % 3600) / 900),
@@ -28,7 +37,7 @@ function roundTime(time) {
 // Calculates the total time for one watch
 function calcTime(id, time) {
 	var $time = $('#' + id).find('.time'),
-		text = formatTime(time);
+		text = _formatTime(time);
 
 	$time.text(text);
 
@@ -45,12 +54,12 @@ function calcTotalTime() {
 
 	allWatches.forEach(function(watch) {
 		totalTime += watch.get('totalTime');
-		totalRoundedTime += roundTime(watch.get('totalTime'));
+		totalRoundedTime += _roundTime(watch.get('totalTime'));
 	});
 
 	totalRoundedTime += " " + ((totalRoundedTime === 1) ? 'hour' : 'hours');
 
-	$total.text(formatTime(totalTime));
+	$total.text(_formatTime(totalTime));
 	$roundedTotal.text(totalRoundedTime);
 }
 
@@ -128,15 +137,6 @@ function adjustTime(id, adjustment) {
 		watch
 			.set('totalTime', watch.get('totalTime') + (timeToAdjust * multiplier))
 			.set('tracking', false);
-	}
-}
-
-function padZeroes(number) {
-	if (number < 10) {
-		return "0" + number;
-	}
-	else {
-		return number;
 	}
 }
 

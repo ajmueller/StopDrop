@@ -10,7 +10,7 @@ var watches = require('./watches'),
 	},
 	windowResize;
 
-function getGraphData() {
+function _getGraphData() {
 	var graphData = [],
 		allWatches = watches.getWatches();
 
@@ -61,7 +61,7 @@ function drawChart() {
 			series: [{
 				type: 'pie',
 				name: 'Percentage',
-				data: getGraphData()
+				data: _getGraphData()
 			}]
 		});
 	});

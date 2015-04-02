@@ -2,6 +2,11 @@ var options = require('./options.js'),
 	time = require('./time.js'),
 	charts = require('./charts.js');
 
+// Removes a watch from the DOM
+function _removeWatch(id) {
+	$('#' + id).remove();
+}
+
 // retrieves the user's watches from their datastore
 function getWatches() {
 	var watches = datastore.getTable('watches');
@@ -54,7 +59,7 @@ function deleteWatch(id, confirm) {
 		$('#' + id).hide(500, function() {
 			var watch = getWatch(id);
 
-			removeWatch(id);
+			_removeWatch(id);
 			watch.deleteRecord();
 		});
 	}
@@ -135,7 +140,7 @@ function updateNote(id, note) {
 	watch.set('note', note);
 }
 
-function appendWatch(id, watch) {
+function _appendWatch(id, watch) {
 	var status,
 		buttons,
 		html,
@@ -174,7 +179,7 @@ function appendWatches() {
 					note: watch.get('note')
 				};
 
-			appendWatch(watchId, watchToAppend);
+			_appendWatch(watchId, watchToAppend);
 		});
 
 		time.calcTotalTime();
@@ -184,7 +189,7 @@ function appendWatches() {
 function resetWatch(id, confirm) {
 	var watch = getWatch(id);
 
-	function resetWatch() {
+	function _resetWatch() {
 		watch
 			.set('sessionStart', 0)
 			.set('sessionEnd', 0)
@@ -195,10 +200,10 @@ function resetWatch(id, confirm) {
 	}
 
 	if (confirm) {
-		resetWatch();
+		_resetWatch();
 	}
 	else if (window.confirm('Are you sure you want to reset this watch?')) {
-		resetWatch();
+		_resetWatch();
 	}
 }
 
@@ -212,11 +217,6 @@ function resetAll(id) {
 			resetWatch(id, true);
 		});
 	}
-}
-
-// Removes a watch from the DOM
-function removeWatch(id) {
-	$('#' + id).remove();
 }
 
 // sets up listener to sync watches UI
