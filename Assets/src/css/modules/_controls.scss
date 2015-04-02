@@ -46,23 +46,39 @@
 	}
 }
 
-.start span::before {
-	border: 8px solid transparent;
-	border-width: 8px 12px;
-	border-left-color: #4492ce;
-	left: 14px;
-	margin-top: -8px;
+.start {
+	display: inline-block;
+
+	.tracking & {
+		display: none;
+	}
+
+	span::before {
+		border: 8px solid transparent;
+		border-width: 8px 12px;
+		border-left-color: #4492ce;
+		left: 14px;
+		margin-top: -8px;
+	}
 }
 
-.pause span::after {
-	border: 3px solid #4492ce;
-	border-width: 0 3px;
-	box-sizing: content-box;
-	height: 14px;
-	left: 14px;
-	margin-top: -4px;
-	top: 40%;
-	width: 4px;
+.pause {
+	display: none;
+
+	.tracking & {
+		display: inline-block;
+	}
+
+	span::after {
+		border: 3px solid #4492ce;
+		border-width: 0 3px;
+		box-sizing: content-box;
+		height: 14px;
+		left: 14px;
+		margin-top: -4px;
+		top: 40%;
+		width: 4px;
+	}
 }
 
 .reset span {

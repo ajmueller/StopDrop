@@ -140,15 +140,14 @@ function appendWatch(id, watch) {
 		buttons,
 		html,
 		colors = '<div class="colors"><div class="black"></div><div class="red"></div><div class="orange"></div><div class="yellow"></div><div class="green"></div><div class="blue"></div><div class="violet"></div></div>',
+		buttons = '<button class="start control"><span></span></button><button class="pause control"><span></span></button>',
 		note = (watch.note == null) ? '' : watch.note;
 
 	if (watch.tracking) {
 		status = "Tracking...";
 		watch.theme += " tracking";
-		buttons = '<button class="start hide control"><span></span></button><button class="pause control"><span></span></button>';
 	}
 	else {
-		buttons = '<button class="start control"><span></span></button><button class="pause hide control"><span></span></button>';
 		status = time.calcTime(id, watch.totalTime);
 	}
 

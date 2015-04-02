@@ -58,8 +58,6 @@ function calcTotalTime() {
 function pauseTime(id) {
 	var watch = watches.getWatch(id),
 		$watch = $('#' + id),
-		$pause = $watch.find('.pause'),
-		$start = $watch.find('.start'),
 		sessionStart = watch.get('sessionStart'),
 		sessionEnd = new Date(),
 		sessionTime = sessionEnd - sessionStart,
@@ -74,8 +72,6 @@ function pauseTime(id) {
 
 	calcTotalTime();
 	$watch.removeClass('tracking');
-	$pause.addClass('hide');
-	$start.removeClass('hide');
 }
 
 // Pauses all watches
@@ -96,8 +92,6 @@ function pauseAll() {
 function startTime(id) {
 	var watch = watches.getWatch(id),
 		$watch = $('#' + id),
-		$pause = $watch.find('.pause'),
-		$start = $watch.find('.start'),
 		$time = $watch.find('.time'),
 		sessionStart = new Date(),
 		$trackingWatches = $('.tracking'),
@@ -115,8 +109,6 @@ function startTime(id) {
 		.set('tracking', true);
 
 	$watch.addClass('tracking');
-	$pause.removeClass('hide');
-	$start.addClass('hide');
 	$time.text("Tracking...");
 }
 
