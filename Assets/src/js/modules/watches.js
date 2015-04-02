@@ -7,6 +7,11 @@ function _removeWatch(id) {
 	$('#' + id).remove();
 }
 
+// Resets a watch's note in the UI
+function _resetNoteUI(id) {
+	$('#' + id).find('.note').val('');
+}
+
 // retrieves the user's watches from their datastore
 function getWatches() {
 	var watches = datastore.getTable('watches');
@@ -88,6 +93,8 @@ function setTheme(id, theme) {
 	var watch = getWatch(id);
 
 	watch.set('theme', theme);
+
+	$('#' + id).removeClass('black red green blue violet orange yellow').addClass(theme);
 }
 
 function expandAll() {
@@ -197,6 +204,9 @@ function resetWatch(id, confirm) {
 			.set('totalTime', 0)
 			.set('note', '')
 			.set('tracking', false);
+
+		_resetNoteUI(id);
+		time.calcTime(id, 0);
 	}
 
 	if (confirm) {
@@ -222,24 +232,6 @@ function resetAll(id) {
 // sets up listener to sync watches UI
 function setWatchesSync() {
 	datastore.recordsChanged.addListener(function(e) {
-		var watches = getWatches();
-
-		$('.watches').empty();
-
-		watches.forEach(function(watch) {
-			var watchId = watch.getId(),
-				watchToAppend = {
-					name: watch.get('name'),
-					theme: watch.get('theme'),
-					totalTime: watch.get('totalTime'),
-					tracking: watch.get('tracking'),
-					collapsed: watch.get('collapsed'),
-					note: watch.get('note')
-				};
-
-			appendWatch(watchId, watchToAppend);
-		});
-
 		time.calcTotalTime();
 		charts.drawChart();
 	});

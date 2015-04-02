@@ -79,6 +79,7 @@ function pauseTime(id) {
 		.set('totalTime', totalTime)
 		.set('tracking', false);
 
+	calcTime(id, totalTime);
 	calcTotalTime();
 	$watch.removeClass('tracking');
 }
@@ -127,6 +128,7 @@ function adjustTime(id, adjustment) {
 		totalTime = watch.get('totalTime'),
 		multiplier = (adjustment === 'subtract') ? -1 : 1,
 		timeToAdjust = 15 * 60 * 1000,
+		newTotalTime = watch.get('totalTime') + (timeToAdjust * multiplier),
 		$watch = $('#' + id);
 
 	if ($watch.is('.tracking')) {
@@ -135,8 +137,10 @@ function adjustTime(id, adjustment) {
 
 	if ( ((totalTime >= timeToAdjust) && multiplier === -1) || multiplier === 1) {
 		watch
-			.set('totalTime', watch.get('totalTime') + (timeToAdjust * multiplier))
+			.set('totalTime', newTotalTime)
 			.set('tracking', false);
+
+		calcTime(id, newTotalTime);
 	}
 }
 
