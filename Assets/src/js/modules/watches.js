@@ -186,14 +186,13 @@ function resetWatch(id, confirm) {
 	var watch = getWatch(id);
 
 	function resetWatch() {
-		time.pauseTime(id);
-
 		watch
 			.set('sessionStart', 0)
 			.set('sessionEnd', 0)
 			.set('sessionTime', 0)
 			.set('totalTime', 0)
-			.set('note', '');
+			.set('note', '')
+			.set('tracking', false);
 	}
 
 	if (confirm) {
