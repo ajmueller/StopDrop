@@ -1,4 +1,5 @@
 var watches = require('./watches'),
+	time = require('./time'),
 	colors = {
 		black: '#0e0e0e',
 		red: '#ff3824',
@@ -16,15 +17,16 @@ function _getGraphData() {
 
 	allWatches.forEach(function(watch) {
 		var name = watch.get('name'),
-			time = watch.get('totalTime'),
+			totalTime = watch.get('totalTime'),
 			color = watch.get('theme'),
 			watchData = {
 				name: name,
-				y: time,
-				color: colors[color]
+				y: totalTime,
+				color: colors[color],
+				roundedTime: time.formatTime(totalTime)
 			};
 
-		if (time > 0) {
+		if (totalTime > 0) {
 			graphData.push(watchData);
 		}
 	});
@@ -43,7 +45,7 @@ function drawChart() {
 				text: 'Percentage by Task'
 			},
 			tooltip: {
-				pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+				enabled: false
 			},
 			plotOptions: {
 				pie: {
@@ -51,7 +53,7 @@ function drawChart() {
 					cursor: 'pointer',
 					dataLabels: {
 						enabled: true,
-						format: '<b>{point.name}</b>: {point.percentage:.1f} %',
+						format: '<b>{point.name}</b>:<br>{point.percentage:.1f}%<br>{point.roundedTime}',
 						style: {
 							color: (Highcharts.theme && Highcharts.theme.contrastTextColor) || 'black'
 						}

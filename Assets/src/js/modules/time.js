@@ -10,8 +10,18 @@ function _padZeroes(number) {
 	}
 }
 
-// Calculates the time for a given watch
-function _formatTime(time) {
+// Calculates time rounded to 0.25 hours
+function _roundTime(time) {
+	var time = Math.floor(time / 1000),		// convert milliseconds to seconds
+		hours = Math.floor(time / 3600),
+		quarters = Math.round((time % 3600) / 900),
+		roundedTime = hours + (quarters * 0.25);
+
+	return roundedTime;
+}
+
+// Calculates the time for a given watch with nice formatting
+function formatTime(time) {
 	var time = Math.floor(time / 1000),		// convert milliseconds to seconds
 		hours = Math.floor(time / 3600),
 		quarters = Math.round((time % 3600) / 900),
@@ -24,20 +34,10 @@ function _formatTime(time) {
 	return text;
 }
 
-// Calculates time rounded to 0.25 hours
-function _roundTime(time) {
-	var time = Math.floor(time / 1000),		// convert milliseconds to seconds
-		hours = Math.floor(time / 3600),
-		quarters = Math.round((time % 3600) / 900),
-		roundedTime = hours + (quarters * 0.25);
-
-	return roundedTime;
-}
-
 // Calculates the total time for one watch
 function calcTime(id, time) {
 	var $time = $('#' + id).find('.time'),
-		text = _formatTime(time);
+		text = formatTime(time);
 
 	$time.text(text);
 
@@ -59,7 +59,7 @@ function calcTotalTime() {
 
 	totalRoundedTime += " " + ((totalRoundedTime === 1) ? 'hour' : 'hours');
 
-	$total.text(_formatTime(totalTime));
+	$total.text(formatTime(totalTime));
 	$roundedTotal.text(totalRoundedTime);
 }
 
@@ -144,6 +144,7 @@ function adjustTime(id, adjustment) {
 	}
 }
 
+exports.formatTime = formatTime;
 exports.calcTime = calcTime;
 exports.calcTotalTime = calcTotalTime;
 exports.pauseTime = pauseTime;
