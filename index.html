@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+<head>
+	<title>StopDrop</title>
+	<meta name="viewport" content="initial-scale=1.0, user-scalable=no" />
+	<!-- <meta name="apple-mobile-web-app-capable" content="yes"> -->
+	<link rel="apple-touch-icon-precomposed" href="Assets/dist/img/content/touch-icon.png" />
+	<meta name="msapplication-TileImage" content="Assets/dist/img/content/touch-icon.png">
+	<meta name="msapplication-TileColor" content="#ffffff">
+	<link rel="shortcut icon" type="image/png" href="Assets/dist/img/content/favicon.png">
+	<link rel="stylesheet" href="Assets/dist/css/style.css" />
+	<script src="https://www.dropbox.com/static/api/dropbox-datastores-1.2-latest.js" type="text/javascript"></script>
+	<script type="text/javascript" src="Assets/dist/js/app.js"></script>
+</head>
+<body>
+	<div id="welcome">
+		<h1>Welcome to StopDrop</h1>
+		<p>This is a time-tracking app that stores your time data in Dropbox and syncs to all of your devices in real time.</p>
+		<p>In order to use the app, you'll need to connect your Dropbox account.</p>
+		<p>
+			<button id="authenticate">Log In to Dropbox</button>
+		</p>
+	</div>
+	<div id="container">
+		<ul class="watches">
+		</ul>
+		<footer>
+			<button class="new">New</button>
+			<button class="reset-all">Reset all</button>
+			<button class="delete-all">Delete all</button>
+			<button class="pause-all">Pause all</button>
+			<button class="expand-all">Expand all</button>
+			<button class="collapse-all">Collapse all</button>
+			<p class="total clear">
+				Total (Rounded Total):<br />
+				<span class="total sum"></span>
+			</p>
+			<p class="total">
+				Sum of Rounded Times:<br />
+				<span class="total rounded-sum"></span>
+			</p>
+			<ul class="options">
+				<li>
+					<input type="checkbox" id="singleWatch" name="singleWatch" />
+					<label for="singleWatch"> Only allow one watch to track at a time</label><br />
+				</li>
+				<li>
+					<input type="checkbox" id="trackImmediately" name="trackImmediately" />
+					<label for="trackImmediately"> Begin tracking watches immediately after they're created</label>
+				</li>
+			</ul>
+			<div id="chart"></div>
+		</footer>
+	</div>
+	<div class="notification"></div>
+</body>
+</html>

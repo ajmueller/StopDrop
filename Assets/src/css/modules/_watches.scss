@@ -1,0 +1,107 @@
+.handle {
+	cursor: move;
+	display: inline-block;
+	font-size: 1.3333em;
+	height: 24px;
+	line-height: 24px;
+	margin-right: 0.5em;
+	vertical-align: middle;
+}
+
+// the placeholder while dragging/dropping a watch
+.placeholder {
+	background: $colorGreyLight;
+	border: 1px dashed black;
+	height: 5em;
+}
+.ui-sortable-helper {
+	opacity: 0.4;
+}
+
+.name {
+	font-weight: 300;
+	vertical-align: middle;
+}
+
+.stopwatch {
+	@extend %clearfix;
+	display: block;
+	font-size: 1.5em;
+	line-height: 1.5em;
+	min-height: 5em;
+	padding: 1em;
+	vertical-align: middle;
+	width: 100%;
+
+	@include respond(breakpointSmall) {
+		border-top: none !important;	// overrides top borders set by each color
+		margin: 1em auto;
+		max-width: 640px;
+	}
+
+	&.collapsed {
+		min-height: 0;
+		padding: 0.5em 1em;
+
+		.color-selector,
+		.colors,
+		.controls > :not(.start):not(.pause),
+		.time {
+			display: none !important;
+		}
+
+		.controls {
+			width: 15%;
+
+			button {
+				float: right;
+				margin: 0;
+			}
+		}
+
+		.properties {
+			overflow: hidden;
+			text-overflow: ellipsis;
+			white-space: nowrap;
+			width: 75%;
+		}
+
+		textarea {
+			display: none;
+		}
+	}
+
+	.properties {
+		float: left;
+		width: 60%;
+
+		@include respond(breakpointSmall) {
+			width: 50%;
+		}
+	}
+
+	textarea {
+		display: block;
+		font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		font-size: 20px;
+		font-weight: 300;
+		margin: 1em 0;
+		max-width: 350px;
+		min-height: 100px;
+		padding: 0.5em;
+		width: 100%;
+	}
+}
+
+.time {
+	display: block;
+}
+
+.tracking {
+	animation: pulse 2s infinite linear;
+
+	.add,
+	.subtract {
+		display: none;
+	}
+}

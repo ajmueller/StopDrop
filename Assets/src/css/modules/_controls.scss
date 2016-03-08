@@ -1,0 +1,142 @@
+.controls,
+.properties {
+	display: inline-block;
+}
+
+.controls {
+	float: right;
+	width: 40px;
+
+	button {
+		font-size: 11px;
+		height: 30px;
+		margin: 0 0 2em 0;
+		vertical-align: top;
+		width: 40px;
+
+		&:last-child {
+			margin-right: 0;
+		}
+
+		@include respond(breakpointSmall) {
+			margin: 0 0 0 0.75em;
+		}
+	}
+
+	@include respond(breakpointSmall) {
+		text-align: right;
+		width: 50%;
+	}
+}
+
+.control {
+	position: relative;
+
+	span {
+		display: block;
+		margin: auto;
+
+		&::after,
+		&::before {
+			content: '';
+			left: 0;
+			position: absolute;
+			top: 50%;
+		}
+	}
+}
+
+.start {
+	display: inline-block;
+
+	.tracking & {
+		display: none;
+	}
+
+	span::before {
+		border: 8px solid transparent;
+		border-width: 8px 12px;
+		border-left-color: #4492ce;
+		left: 14px;
+		margin-top: -8px;
+	}
+}
+
+.pause {
+	display: none;
+
+	.tracking & {
+		display: inline-block;
+	}
+
+	span::after {
+		border: 3px solid #4492ce;
+		border-width: 0 3px;
+		box-sizing: content-box;
+		height: 14px;
+		left: 14px;
+		margin-top: -4px;
+		top: 40%;
+		width: 4px;
+	}
+}
+
+.reset span {
+	background: black;
+	border-radius: 2px;
+	color: white;
+	display: block;
+	height: 14px;
+	margin: auto;
+	width: 25px;
+}
+
+.delete span {
+	background: red;
+	border-radius: 50%;
+	display: block;
+	height: 16px;
+	width: 16px;
+
+	&::after {
+		background: #fff;
+		height: 2px;
+		left: 14px;
+		margin-top: -1px;
+		width: 10px;
+	}
+}
+
+.add span::before,
+.add span::after {
+	background: transparent;
+	border: 8px solid transparent;
+	border-left-color: #4492ce;
+	border-width: 8px 10px;
+	margin-top: -8px;
+}
+
+.add span::before {
+	left: 10px;
+}
+
+.add span::after {
+	left: 19px;
+}
+
+.subtract span::before,
+.subtract span::after {
+	background: transparent;
+	border: 8px solid transparent;
+	border-right-color: #4492ce;
+	border-width: 8px 10px;
+	margin-top: -8px;
+}
+
+.subtract span::before {
+	left: -2px;
+}
+
+.subtract span::after {
+	left: 7px;
+}
